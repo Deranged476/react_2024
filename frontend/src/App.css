@@ -1,0 +1,27 @@
+.App {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 20px;
+  }
+  
+  h1 {
+    color: #333;
+  }
+  
+  form {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: inline-block;
+    width: 100px;
+  }
+  
+  input, textarea {
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+  
+  button {
+    margin-right: 10px;
+  }
+  
