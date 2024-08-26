@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
+//import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'; alkuperäinen import, tällä sovellu ei toimi
+import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'; // Switch paikkalle Routes
 import Register from './components/Register';
 import Login from './components/Login';
 import UserManagement from './components/UserManagement';
