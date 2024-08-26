@@ -1,6 +1,4 @@
-// Tiedosto sisältää käyttäjiin liittyvien HTTP-pyyntöjen käsittely funktioita
-import mongoose from "mongoose"
-import {connectMongoose} from "../database/mongo.js"
+// Tiedosto sisältää käyttäjiin liittyvien HTTP-pyyntöjen käsittelyyn käytettäviä funktioita
 
 // Palauttaa kaikki käyttäjät json muodosssa
 export function getUsers(req,res,next) {

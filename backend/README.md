@@ -5,18 +5,15 @@
     backend/
         node_modules/           // Noden moduulit ovat tässä kansiossa
             ...
-        src/                    // Lähdekoodit
-            controllers/        // HTTP-pyyntöjen käsittely
-                Users.js        // Käyttäjään kohdistuvat HTTP-pyyntöjä käsittelevät funktiot
-            models/             // Mongoosen dokumentin modelit
-                User.js         // Mongodb käyttäjä dokumentin malli
-            routes/             // Expressin routerit.
-                api.js          // Sovelluksen toimintalogiikkaan liittyvät HTTP-pyynnöt
-            index.js            // Sovelluksen lähtöpiste
+        controllers/            // HTTP-pyyntöjen käsittely
+            Users.js            // Käyttäjään kohdistuvat HTTP-pyyntöjä käsittelevät funktiot
+        routes/                 // Expressin routerit.
+            api.js              // Sovelluksen toimintalogiikkaan liittyvät HTTP-pyynnöt
+        server.js               // Sovelluksen lähtöpiste
         .env                    // Konfigurointi tiedosto
         package-lock.json       // Noden moduulien tiedot
         package.json            // Noden riippuvuus tiedot
-        README.md               // Dokumentaatio
+        README.md               // Dokumentaatio bäckendistä
 
 ### Tietokanta
 
@@ -33,8 +30,8 @@ Tietokanta on mongodb. Alla tietokannan kaavio:
 
 | Tavoite                                       | HTTP-pyyntö | URL              | Palaute                                     |
 | :-------------------------------------------- | :---------: | :--------------- | :------------------------------------------ |
-| Palauttaa kaikki käyttäjät                    |     GET     | /users/          | {**nimi**,**bio**}                          |
-| Palauttaa käyttäjän käyttäjänimen perusteella |     GET     | /users/:username | [{**nimi**,**bio**},{**nimi**,**bio**},...] |
-| Rekisteröi uuden käyttäjän                    |    POST     | /users/          | OK                                          |
-| Päivittää käyttää käyttäjänimen perusteella   |     PUT     | /users/:username | OK                                          |
-| Poistaa käyttäjän käyttäjänimen perusteella   |   DELETE    | /users/:username | OK                                          |
+| Palauttaa kaikki käyttäjät                    |     GET     | /api/users/          | {**nimi**,**bio**}                          |
+| Palauttaa käyttäjän käyttäjänimen perusteella |     GET     | /api/users/:username | [{**nimi**,**bio**},{**nimi**,**bio**},...] |
+| Rekisteröi uuden käyttäjän                    |    POST     | /api/users/          | OK                                          |
+| Päivittää käyttää käyttäjänimen perusteella   |     PUT     | /api/users/:username | OK                                          |
+| Poistaa käyttäjän käyttäjänimen perusteella   |   DELETE    | /api/users/:username | OK                                          |
