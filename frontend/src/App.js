@@ -50,14 +50,3 @@ function App() {
 }
 
 export default App;
-/*
-
-<div className="App">
-            <h1>Käyttäjien hallintajärjestelmä</h1>
-
-<Register />
-<Login />
-<UserManagement />
-</div>
-
-*/
