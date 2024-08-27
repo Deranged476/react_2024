@@ -6,7 +6,14 @@ import bodyParser from "body-parser";
 // .env tiedoston käyttöönotto
 import dotenv from "dotenv";
 dotenv.config();
-mongoose.connect(process.env.MONGODB_URI);
+// try {
+//   mongoose.connect(process.env.MONGODB_URI);
+//   console.log("MongoDB yhdistetty");
+// } catch(exception) {
+//   console.log("MongoDB:n yhdistys epäonnistui");
+// }
+
+
 import { usersRoutes } from "./routes/api.js";
 
 const app = express();
