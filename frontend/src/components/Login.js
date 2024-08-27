@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-//import axios from 'axios';
+import axios from 'axios';
 
 // Register-komponentti käsittelee käyttäjän rekisteröinnin
 function Login() {
@@ -16,10 +16,15 @@ function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Tulostetaan rekisteröityneen käyttäjän tiedot konsoliin
-        console.log('Käyttäjä kirjautunut sisään:', credentials);
-        // Näytetään ilmoitus onnistuneesta kirjautumisesta
-        alert('Kirjautuminen onnistui');
+        axios({url:"http://localhost:3100/api/users/",method:"post",data:{username:"nimi",password:"salasana",bio:"bio"}})
+    .then((response) => {
+        console.log(response.data);
+        console.log(response.status);
+    })
+    .catch((err) => {
+      // Tulostetaan virhe konsoliin
+      console.log(err);
+    });
     };
 
     return (
