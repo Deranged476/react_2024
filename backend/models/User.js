@@ -3,8 +3,8 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
 const UserSchema = new mongoose.Schema({
-    username: {type:String, defalt: ''},
-    password: {type:String, defalt: ''},
+    username: {type:String, required: true,unique:true},
+    password: {type:String, default:''},
     bio: {type:String, defalt: ''}
 });
 
@@ -28,25 +28,11 @@ UserSchema.path('username').validate(function(username) {
 }, 'Username `{VALUE}` already exists');
 
 UserSchema.path('password').validate(function(password) {
-  return password.length;
-}, 'Password cannot be blank');
+  return password.length > 7;
+}, 'Password too short');
 
 UserSchema.path('bio').validate(function(bio) {
   return bio.length;
 }, 'Bio cannot be blank');
-
-/**
- * Pre-save hook
- */
-
-UserSchema.pre('save', function(next) {
-  if (!this.isNew) return next();
-
-  if (!(this.password && this.password.length)) {
-    next(new Error('Invalid password'));
-  } else {
-    next();
-  }
-});
 
 export const UserModel = mongoose.model("User",UserSchema);
