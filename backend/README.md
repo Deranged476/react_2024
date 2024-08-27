@@ -6,7 +6,9 @@
         node_modules/           // Noden moduulit ovat tässä kansiossa
             ...
         controllers/            // HTTP-pyyntöjen käsittely
-            Users.js            // Käyttäjään kohdistuvat HTTP-pyyntöjä käsittelevät funktiot
+            users.js            // Käyttäjään kohdistuvat HTTP-pyyntöjä käsittelevät funktiot
+        models/                 // Mongoosen mallit
+            User.js             // Käyttäjä dokumentin malli
         routes/                 // Expressin routerit.
             api.js              // Sovelluksen toimintalogiikkaan liittyvät HTTP-pyynnöt
         server.js               // Sovelluksen lähtöpiste
@@ -28,8 +30,8 @@ Tietokanta on mongodb. Alla tietokannan kaavio:
 
 ### HTTP pyynnöt
 
-| Tavoite                                       | HTTP-pyyntö | URL              | Palaute                                     |
-| :-------------------------------------------- | :---------: | :--------------- | :------------------------------------------ |
+| Tavoite                                       | HTTP-pyyntö | URL                  | Palaute                                     |
+| :-------------------------------------------- | :---------: | :------------------- | :------------------------------------------ |
 | Palauttaa kaikki käyttäjät                    |     GET     | /api/users/          | {**nimi**,**bio**}                          |
 | Palauttaa käyttäjän käyttäjänimen perusteella |     GET     | /api/users/:username | [{**nimi**,**bio**},{**nimi**,**bio**},...] |
 | Rekisteröi uuden käyttäjän                    |    POST     | /api/users/          | OK                                          |
