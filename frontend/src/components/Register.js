@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, } from 'react';
 import axios from 'axios';
 
 // Register-komponentti käsittelee käyttäjän rekisteröinnin
@@ -9,7 +9,6 @@ function Register() {
     const handleChange = (e) => {
         setUser({
             ...user,
-            ...users,
             [e.target.name]: e.target.value
         });
     };
@@ -17,25 +16,16 @@ function Register() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Tulostetaan rekisteröityneen käyttäjän tiedot konsoliin
-        console.log('Käyttäjä rekisteröitynyt:', user);
-        // Näytetään ilmoitus onnistuneesta rekisteröinnistä
-        alert('Käyttäjä rekisteröityi onnistuneesti');
-    };
-
-    var [users,setUsers] = useState([]);
- 
-    useEffect(() => {
-      axios({url:"http://localhost:3100/api/users/",method:"get"})
+        axios({url:"http://localhost:3100/api/users/",method:"post",data:{username:"nimi",password:"salasana",bio:"bio"}})
     .then((response) => {
-      setUsers(response.data);
+        console.log(response.data);
+        console.log(response.status);
     })
     .catch((err) => {
       // Tulostetaan virhe konsoliin
       console.log(err);
     });
-    }, []);
-
+    };
     // Lomakkeen renderöinti
     return (
     <div>
