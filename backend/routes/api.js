@@ -6,6 +6,7 @@ import {
   registerUser,
   updateUser,
   deleteUser,
+  logUserIn
 } from "../controllers/Users.js";
 
 export var usersRoutes = express.Router();
@@ -15,6 +16,8 @@ usersRoutes.get("/", getUsers);
 usersRoutes.get("/:username", getUser);
 // Rekisteröi uuden käyttäjän
 usersRoutes.post("/", registerUser);
+// Kirjaa käyttäjän sisään
+usersRoutes.post("/login", logUserIn);
 // Päivittää olemassa olevaa käyttäjää
 usersRoutes.put("/:username", updateUser);
 // Poistaa olemassa olevan käyttäjän
