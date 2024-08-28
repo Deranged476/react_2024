@@ -24,4 +24,12 @@
   button {
     margin-right: 10px;
   }
+
+  .errormessage {
+    color: red;
+  }
+
+  .successmessage {
+    color: green;
+  }
   
