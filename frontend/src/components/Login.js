@@ -42,8 +42,8 @@ function Login() {
     return (
     <div>
         <h2>Kirjaudu sisään</h2>
-            {errormessage.length && (<p className='errormessage'> Rekisteröinti epäonnistui {errormessage} </p>)}
-            {successmessage.length && (<p className='successmessage'> Rekisteröinti onnistui {successmessage} </p>)}
+            {errormessage.length && (<p className="errormessage"> Rekisteröinti epäonnistui {errormessage} </p>)}
+            {successmessage.length && (<p className="successmessage"> Rekisteröinti onnistui {successmessage} </p>)}
         <form onSubmit={handleSubmit}>
         <label>
             Käyttäjänimi:
