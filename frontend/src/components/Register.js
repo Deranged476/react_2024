@@ -1,11 +1,14 @@
-import React, { useState, } from 'react';
+import React, { useState, /*useEffect*/ } from 'react';
 import axios from 'axios';
 import querystring from 'querystring';
+import '../App.css'
 
 // Register-komponentti käsittelee käyttäjän rekisteröinnin
 function Register() {
     // useState hook luo tilan käyttäjän tiedoille: käyttäjänimi, salasana ja bio
     const [user, setUser] = useState({ username: '', password: '', bio: '' });
+    const [errormessage, setError] = useState('')
+    const [successmessage, setSuccessMessage] = useState('')
     // handleChange-funktio päivittää tilan, kun käyttäjä muuttaa lomakkeen kenttää
     const handleChange = (e) => {
         setUser({
@@ -17,21 +20,30 @@ function Register() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (user.username.length === 0){
+            setError(' lisää käyttäjänimi')
+        } else if (user.password.length === 0){
+            setError(' lisää salasana')
+        } else {
         axios({url:"http://localhost:5000/api/users/",method:"post",data:querystring.stringify(user),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
     .then((response) => {
         console.log(response.data);
         console.log(response.status);
+        setSuccessMessage(' käyttäjän lisääminen onnistui');
     })
     .catch((err) => {
       // Tulostetaan virhe konsoliin
-      console.log(err);
+      //console.log(err);
+      setError(' käyttääjän lisääminen epäonnistui')
     });
-    };
+}};
     // Lomakkeen renderöinti
     return (
     <div>
         <h2>Rekisteröinti</h2>
          {/* Lomakkeen lähetys kutsuu handleSubmit-funktiota */}
+         {errormessage.length && (<p className='errormessage'> Rekisteröinti epäonnistui {errormessage} </p>)}
+         {successmessage.length && (<p className='successmessage'> Rekisteröinti onnistui {successmessage} </p>)}
         <form onSubmit={handleSubmit}>
             <label>
             Käyttäjänimi:
