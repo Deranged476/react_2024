@@ -30,5 +30,5 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use("/api/users", usersRoutes);
 
 app.listen(port, () => {
-  console.log(`user-management-app listening on port ${port}`);
+  console.log(`user-management-app listening on port ${port}/api/users/`);
 });
