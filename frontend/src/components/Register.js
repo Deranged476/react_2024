@@ -1,5 +1,6 @@
 import React, { useState, } from 'react';
 import axios from 'axios';
+import querystring from 'querystring';
 
 // Register-komponentti käsittelee käyttäjän rekisteröinnin
 function Register() {
@@ -16,7 +17,7 @@ function Register() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios({url:"http://localhost:5000/api/users/",method:"post",data:{username:"nimi",password:"salasana",bio:"bio"}})
+        axios({url:"http://localhost:5000/api/users/",method:"post",data:querystring.stringify(user),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
     .then((response) => {
         console.log(response.data);
         console.log(response.status);
