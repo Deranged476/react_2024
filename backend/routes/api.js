@@ -6,14 +6,15 @@ import {
   registerUser,
   updateUser,
   deleteUser,
-  logUserIn
+  logUserIn,
+  isLoggedIn
 } from "../controllers/Users.js";
 
 export var usersRoutes = express.Router();
 // Palauttaa kaikki käyttäjät
 usersRoutes.get("/", getUsers);
 // Palauttaa käyttäjän käyttäjänimen perusteella
-usersRoutes.get("/:username", getUser);
+usersRoutes.get("/:username", isLoggedIn, getUser);
 // Rekisteröi uuden käyttäjän
 usersRoutes.post("/", registerUser);
 // Kirjaa käyttäjän sisään
