@@ -28,6 +28,7 @@ UserSchema.path('username').validate(function(username) {
 }, 'Username `{VALUE}` already exists');
 
 UserSchema.path('password').validate(function(password) {
+  return password.length;
   return password.length > 7;
 }, 'Password too short');
 

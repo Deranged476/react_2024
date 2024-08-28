@@ -47,7 +47,6 @@ export function getUser(req, res, next) {
 }
 // Rekisteröi uuden käyttäjän
 export function registerUser(req, res, next) {
-  console.log(req.body);
   res.setHeader("Content-Type", "application/json");
   if (!req.body.username || !req.body.password || !req.body.bio) {
     res
