@@ -52,6 +52,7 @@ export function registerUser(req, res, next) {
     res
       .status(400)
       .json({ user: {}, message: "username, password or bio is not defined" });
+    return;
   }
   UserModel.create({
     username: req.body.username,
