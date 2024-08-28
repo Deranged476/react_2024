@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import querystring from "querystring";
+import '../App.css'
 
 // Register-komponentti käsittelee käyttäjän rekisteröinnin
 function Login() {
     // useState hook luo tilan käyttäjän tiedoille: käyttäjänimi, salasana ja bio
     const [credentials, setCredentials] = useState({ username: '', password: '', bio: '' });
+    const [errormessage, setError] = useState('')
+    const [successmessage, setSuccessMessage] = useState('')
     // handleChange-funktio päivittää tilan, kun käyttäjä muuttaa lomakkeen kenttää
     const handleChange = (e) => {
         setCredentials({
@@ -17,23 +20,33 @@ function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        if (credentials.username.length === 0){
+            setError(' Lisää käyttäjänimi')
+        } else if (credentials.password.length === 0){
+            setError(' Lisää salasana')
+        } else {
         axios({url:"http://localhost:5000/api/users/login",method:"post",data:querystring.stringify(credentials),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
     .then((response) => {
         console.log(response.data);
         console.log(response.status);
+        setSuccessMessage(' Käyttäjän lisääminen onnistui');
+        localStorage.setItem('auth1', response.token)
     })
     .catch((err) => {
       // Tulostetaan virhe konsoliin
       console.log(err);
+      setError(' Käyttääjän lisääminen epäonnistui')
     });
-    };
+    }};
 
     return (
     <div>
         <h2>Kirjaudu sisään</h2>
+            {errormessage.length && (<p className="errormessage"> Rekisteröinti epäonnistui {errormessage} </p>)}
+            {successmessage.length && (<p className="successmessage"> Kirjautuminen onnistui {successmessage} </p>)}
         <form onSubmit={handleSubmit}>
         <label>
-            Käyttäjänimi:
+            Käyttäjänimi
                 <input
                     type="text"
                     name="username"
@@ -43,7 +56,7 @@ function Login() {
             </label>
             <br />
             <label>
-                Salasana:
+                Salasana
                 {/* Salasanojen syöttökenttä, joka päivittää password-tilan */}
                 <input
                     type="password"
@@ -55,7 +68,7 @@ function Login() {
             <br />
 
             {/* Kirjautumispainike */}
-            <button type="submit">Kirjaudu</button>
+            <button type="submit">Kirjaudu sisään</button>
         </form>
     </div>
     );
