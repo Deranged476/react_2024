@@ -56,57 +56,55 @@ export async function registerUser(req, res, next) {
     return;
   }
 
-
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-      UserModel.create({
-        username: req.body.username,
-        password: hashedPassword,
-        bio: req.body.bio,
-      }).then(() => {
-        res.status(201).json({
-          user: {
-            username: req.body.username,
-            password: req.body.password,
-            bio: req.body.bio,
-          },
-          message: "Käyttäjän rekisteröinti onnistui",
-          error: false,
-        });
-      }).catch((err)=>{
-        console.log(err);
-        res.status(403).json({
-          message: "Käyttäjän rekisteröinti epäonnistui",
-          error: true,
-        });
+  UserModel.create({
+    username: req.body.username,
+    password: hashedPassword,
+    bio: req.body.bio,
+  })
+    .then(() => {
+      res.status(201).json({
+        user: {
+          username: req.body.username,
+          password: req.body.password,
+          bio: req.body.bio,
+        },
+        message: "Käyttäjän rekisteröinti onnistui",
+        error: false,
       });
-
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(403).json({
+        message: "Käyttäjän rekisteröinti epäonnistui",
+        error: true,
+      });
+    });
 }
 
 // Kirjaa käyttäjän sisään.
 export async function logUserIn(req, res, next) {
   const { username, password } = req.body;
 
-
-
   var user = await UserModel.findOne({ username: username });
 
-  if(user) {
+  if (user) {
     // Check if username and password match
     const isMatch = await bcrypt.compare(password, user.password);
-    
+
     if (isMatch) {
       // Generate JWT token
-    const options = {
-      expiresIn: "1h", // Token expiration time
-    };
+      const options = {
+        expiresIn: "1h", // Token expiration time
+      };
 
-    const token = jwt.sign(
-      { name: username },
-      process.env.JWT_SECRET_KEY,
-      options
-    );
+      const token = jwt.sign(
+        { name: username },
+        process.env.JWT_SECRET_KEY,
+        options
+      );
 
       res.json({
         success: true,
@@ -125,9 +123,42 @@ export async function logUserIn(req, res, next) {
       message: "Väärä käyttäjänimi tai salasana",
     });
   }
-    
-
 }
+
+export async function isLoggedIn(req, res, next) {
+  const { authorization } = req.headers;
+  console.log(authorization);
+  // Removing 'Bearer ' prefix to get the token
+  const token = authorization.replace("Bearer ", "");
+
+  //Verifying if the token is valid.
+  jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, payload) => {
+    if (err) {
+      res.setHeader("Content-Type", "application/json");
+      return res.status(403).json({ 
+        message: "Tokeni ei kelpaa", 
+        error: true 
+      });
+    }
+
+    // Adding user information to the request object
+    req.user = payload;
+    console.log(payload);
+    
+    // Checking if user exists
+    var user = await UserModel.findOne({ username: payload.name });
+    if (!user) {
+      res.setHeader("Content-Type", "application/json");
+      return res.status(403).json({
+        message: "Tokeniin kohdistuvaa käyttäjää ei löytynyt",
+        error: true,
+      });
+    }
+    next();
+  });
+}
+
+
 
 // Päivittää käyttäjää käyttäjänimen, uusien tietojen perusteella
 export function updateUser(req, res, next) {
