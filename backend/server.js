@@ -31,5 +31,5 @@ app.get("/", (req, res) => {
 
 app.listen(port, () => {
   console.log(`user-management-app listening on port ${port}`);
-  console.log(`http://localhost:${port}`);
+  console.log(`http://localhost:${port}/api/users`);
 });

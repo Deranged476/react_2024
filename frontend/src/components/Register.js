@@ -16,7 +16,7 @@ function Register() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios({url:"http://localhost:3100/api/users/",method:"post",data:{username:"nimi",password:"salasana",bio:"bio"}})
+        axios({url:"http://localhost:5000/api/users/",method:"post",data:{username:"nimi",password:"salasana",bio:"bio"}})
     .then((response) => {
         console.log(response.data);
         console.log(response.status);
