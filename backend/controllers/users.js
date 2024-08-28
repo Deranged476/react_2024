@@ -72,39 +72,38 @@ export function registerUser(req, res, next) {
     })
     .catch((err) => {
       console.log(err);
-      res.status(403).json({ 
-        message: "Käyttäjän rekisteröinti epäonnistui", 
-        error: true 
+      res.status(403).json({
+        message: "Käyttäjän rekisteröinti epäonnistui",
+        error: true,
       });
     });
 }
 // Kirjaa käyttäjän sisään.
 export function logUserIn(req, res, next) {
-  res.status(200).send("OK");return;
   const { username, password } = req.body;
 
+  UserModel.findOne({ username: username }).then((user) => {
+    // Check if username and password match
+    if (username === user.username && password === user.password) {
+      // Generate JWT token
+      const options = {
+        expiresIn: "1h", // Token expiration time
+      };
 
-  // Check if username and password match
-  if (username === user.username && password === user.password) {
-    // Generate JWT token
-    const secretKey = 'yourSecretKey'; // Replace with your own secret key
-  const options = {
-    expiresIn: '1h', // Token expiration time
-  };
+      const token = jwt.sign({name:username}, process.env.JWT_SECRET_KEY, options);
 
-  const token = jwt.sign(payload, secretKey, options);
-
-    res.json({
-      success: true,
-      message: 'Authentication successful!',
-      token: token,
-    });
-  } else {
-    res.status(401).json({
-      success: false,
-      message: 'Invalid username or password',
-    });
-  }
+      res.json({
+        success: true,
+        message: "Authentication successful!",
+        token: token,
+      });
+    } else {
+      res.status(401).json({
+        success: false,
+        message: "Invalid username or password",
+      });
+    }
+  });
 }
 // Päivittää käyttäjää käyttäjänimen, uusien tietojen perusteella
 export function updateUser(req, res, next) {
