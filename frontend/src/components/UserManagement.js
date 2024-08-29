@@ -1,4 +1,6 @@
 import React, { useState, useEffect} from "react";
+import axios from "axios";
+import querystring from "querystring";
 //import axios from "axios";
 
 function UserManagement() {
@@ -7,13 +9,21 @@ function UserManagement() {
     const [editingUser, setEditingUser,] = useState(null);
 
     useEffect(() => {
-        setUsers([
-            { username: 'Jouni React', bio: 'Tämä on Jounin henkilökohtainen kuvaus (bio).'}, 
-            { username: 'Jaana React', bio: 'Tämä on Jaanan henkilökohtainen kuvaus (bio).' }
-        ]);
+        // Haetaan käyttäjät
+        axios({url:"http://localhost:5000/api/users/",method:"get"})
+        .then((response) => {
+        console.log(response.data.message);
+        setUsers(response.data.users);
+    })
+    .catch((err) => {
+      // Tulostetaan virhe konsoliin
+      console.log(err);
+    });
+        
     }, []);
 
     const handleChange = (e) => {
+
         setNewUser({
             ...newUser,
             [e.target.name]: e.target.value
@@ -25,14 +35,38 @@ function UserManagement() {
         e.preventDefault();
         if (editingUser) {
             // Jos ollaan muokkaustilassa, päivitetään olemassa oleva käyttäjä 
-            setUsers(users.map(user => (user.username === editingUser.username ? newUser : user)));
-            setEditingUser(null);
-        } else {
-            // Muussa tapauksessa lisätään uusi käyttäjä
-            setUsers([...users, newUser]);
-        }
+
+            axios({url:"http://localhost:5000/api/users/"+editingUser.username,method:"put",data:querystring.stringify(newUser),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
+        .then((response) => {
+        console.log(response.data.message);
+        setUsers(users.map(user => (user.username === editingUser.username ? newUser : user)));
+        setEditingUser(null);
         // Tyhjennetään lomake
         setNewUser({ username: '', bio: '' });
+    })
+    .catch((err) => {
+      // Tulostetaan virhe konsoliin
+      console.log(err);
+    });
+
+            
+        } else {
+            // Muussa tapauksessa lisätään uusi käyttäjä
+            axios({url:"http://localhost:5000/api/users/",method:"post",data:querystring.stringify(newUser),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
+        .then((response) => {
+        console.log(response.data.message);
+        setUsers(users.map(user => (user.username === editingUser.username ? newUser : user)));
+        setEditingUser(null);
+        // Tyhjennetään lomake
+        setNewUser({ username: '', bio: '' });
+    })
+    .catch((err) => {
+      // Tulostetaan virhe konsoliin
+      console.log(err);
+    });
+            setUsers([...users, newUser]);
+        }
+        
     };
 
     const handleEdit = (user) => {
@@ -42,7 +76,16 @@ function UserManagement() {
 
     // handleDelete-funktio poistaa käyttäjän listasta
     const handleDelete = (username) => {
+        axios({url:"http://localhost:5000/api/users/"+username,method:"delete"})
+        .then((response) => {
+            console.log(response.data.message);
+        })
+        .catch((err) => {
+            // Tulostetaan virhe konsoliin
+            console.log(err);
+        });
         setUsers(users.filter(user => user.username !== username));
+
     };
 
     // Komponentin renderöinti

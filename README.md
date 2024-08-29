@@ -42,3 +42,54 @@ Tietokanta on mongodb. Alla tietokannan kaavio:
 | Poistaa käyttäjän käyttäjänimen perusteella   |   DELETE    | /api/users/:username | {message:"",error:boolean}                                                   |
 
 ## Frontend
+
+### Tiedostot
+
+    frontend/
+        node_modules/               // Noden moduulit ovat tässä kansiossa
+            ...
+        public/                     // Julkiset tiedostot
+            index.html              // Perus HTML-tiedosto
+            mainifest.json          // Web-sovelluksen manifest-tiedosto
+        src/                        // Kaikki React lähdekoodi
+            components/             // REact komponentit
+                Login.js            // Login komponentti
+                Palvelut.js         // Plavelut komponentti
+                PrivateRoute.js     // PrivateRoute komponentti
+                Register.js         // Register komponentti
+                UserManagement.js   // Käyttäjänhallinta komponentti
+            App.js                  // Sovelluksen pääkomponentti
+            App.css                 // Päätyylitiedosto
+            index.js                // Index-tiedoston tyylitiedosto
+            index.css               // Reactin juuritiedosto
+        .env                        // Konfigurointi tiedosto
+        package-lock.json           // Noden moduulien tiedot
+        package.json                // Noden riippuvuus tiedot
+    .gitignore                      // 
+    package-lock.json               // Noden moduulien tiedot
+    package.json                    // Noden riippuvuus tiedot
+    README.md                       // Projectin yleinen kuvaus ja ohjeet
+        
+            
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
