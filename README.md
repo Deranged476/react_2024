@@ -42,3 +42,54 @@ Tietokanta on mongodb. Alla tietokannan kaavio:
 | Poistaa käyttäjän käyttäjänimen perusteella   |   DELETE    | /api/users/:username | {message:"",error:boolean}                                                   |
 
 ## Frontend
+
+### Tiedostot
+
+    frontend/
+        node_modules/           // Noden moduulit ovat tässä kansiossa
+            ...
+        public/
+            index.html
+            mainifest.json
+        src/
+            components/
+                Login.js
+                Palvelut.js
+                PrivateRoute.js
+                Register.js
+                UserManagement.js
+            App.css
+            App.js
+            index.css
+            index.js
+        .env
+        package-lock.json       // Noden moduulien tiedot
+        package.json            // Noden riippuvuus tiedot
+    .gitignore
+    package-lock.json
+    package.json
+    README.md
+        
+            
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
