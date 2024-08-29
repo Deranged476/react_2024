@@ -84,11 +84,11 @@ Tietokanta on mongodb. Alla tietokannan kaavio:
 
 #### UserManagement
     
+#### Palvelut
+    Käyttäjä pääsee vain /palvelut sivulle jos on kirjtunut sisään olemassa olevalla tunnuksella 
 
 #### PrivateRoute
     
-
-#### Palvelut
     
 
 
