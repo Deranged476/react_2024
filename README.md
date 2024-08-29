@@ -69,41 +69,30 @@ Tietokanta on mongodb. Alla tietokannan kaavio:
     package-lock.json               // Noden moduulien tiedot
     package.json                    // Noden riippuvuus tiedot
     README.md                       // Projectin yleinen kuvaus ja ohjeet
+
+### App
     
+ 
 ### Komponentit
+    
 
 #### Login 
+    
 
 #### Register
+    
 
 #### UserManagement
+    
 
 #### PrivateRoute
+    
 
 #### Palvelut
+    
+
 
 
         
             
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
