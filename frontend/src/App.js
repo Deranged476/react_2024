@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Register from './components/Register';
 import Login from './components/Login';
 import UserManagement from './components/UserManagement';
+import Palvelut from './components/Palvelut';
+import PrivateRoute from './components/PrivateRoute';
 import './App.css';
 
 // App-komponentti on sovelluksen pääkomponentti
@@ -41,11 +43,11 @@ function App() {
                     <Route path="/rekisterointi" element={<Register />} />
                     <Route path="/kirjautuminen" element={<Login />} />
                     <Route path="/kayttajat" element={<UserManagement />} />
+                    {/*<Route path='/palvelut' element={<Palvelut/>} />*/}
+                    <Route path="/palvelut" element={<PrivateRoute><Palvelut /></PrivateRoute>} />
                 </Routes>
             </div>
         </Router>
-
-
     );
 }
 

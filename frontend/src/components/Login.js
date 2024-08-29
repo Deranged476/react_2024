@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import querystring from "querystring";
+import { useNavigate } from 'react-router-dom';
 import '../App.css'
 
 // Register-komponentti käsittelee käyttäjän rekisteröinnin
@@ -9,7 +10,9 @@ function Login() {
     const [credentials, setCredentials] = useState({ username: '', password: '', bio: '' });
     const [errormessage, setError] = useState('')
     const [successmessage, setSuccessMessage] = useState('')
+    const navigate = useNavigate();
     // handleChange-funktio päivittää tilan, kun käyttäjä muuttaa lomakkeen kenttää
+    
     const handleChange = (e) => {
         setCredentials({
             ...credentials,
@@ -31,6 +34,7 @@ function Login() {
         console.log(response.status);
         setSuccessMessage(' Käyttäjän lisääminen onnistui');
         localStorage.setItem('auth1', response.token)
+        navigate('/palvelut')
     })
     .catch((err) => {
       // Tulostetaan virhe konsoliin
@@ -42,7 +46,7 @@ function Login() {
     return (
     <div>
         <h2>Kirjaudu sisään</h2>
-            {errormessage.length && (<p className="errormessage"> Rekisteröinti epäonnistui {errormessage} </p>)}
+            {errormessage.length && (<p className="errormessage"> Kirjautuminen epäonnistui {errormessage} </p>)}
             {successmessage.length && (<p className="successmessage"> Kirjautuminen onnistui {successmessage} </p>)}
         <form onSubmit={handleSubmit}>
         <label>

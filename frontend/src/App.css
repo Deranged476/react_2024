@@ -25,6 +25,22 @@
     margin-right: 10px;
   }
 
+  .user-info {
+    display: inline;
+  }
+
+  .actions {
+    display: inline;
+  }
+
+  .logout {
+    display: inline;
+  }
+
+  div button {
+    border-radius: 5px;
+  }
+
   .errormessage {
     color: red;
   }
