@@ -46,29 +46,29 @@ Tietokanta on mongodb. Alla tietokannan kaavio:
 ### Tiedostot
 
     frontend/
-        node_modules/           // Noden moduulit ovat tässä kansiossa
+        node_modules/               // Noden moduulit ovat tässä kansiossa
             ...
-        public/
-            index.html
-            mainifest.json
-        src/
-            components/
-                Login.js
-                Palvelut.js
-                PrivateRoute.js
-                Register.js
-                UserManagement.js
-            App.css
-            App.js
-            index.css
-            index.js
-        .env
-        package-lock.json       // Noden moduulien tiedot
-        package.json            // Noden riippuvuus tiedot
-    .gitignore
-    package-lock.json
-    package.json
-    README.md
+        public/                     // Julkiset tiedostot
+            index.html              // Perus HTML-tiedosto
+            mainifest.json          // Web-sovelluksen manifest-tiedosto
+        src/                        // Kaikki React lähdekoodi
+            components/             // REact komponentit
+                Login.js            // Login komponentti
+                Palvelut.js         // Plavelut komponentti
+                PrivateRoute.js     // PrivateRoute komponentti
+                Register.js         // Register komponentti
+                UserManagement.js   // Käyttäjänhallinta komponentti
+            App.js                  // Sovelluksen pääkomponentti
+            App.css                 // Päätyylitiedosto
+            index.js                // Index-tiedoston tyylitiedosto
+            index.css               // Reactin juuritiedosto
+        .env                        // Konfigurointi tiedosto
+        package-lock.json           // Noden moduulien tiedot
+        package.json                // Noden riippuvuus tiedot
+    .gitignore                      // 
+    package-lock.json               // Noden moduulien tiedot
+    package.json                    // Noden riippuvuus tiedot
+    README.md                       // Projectin yleinen kuvaus ja ohjeet
         
             
         
