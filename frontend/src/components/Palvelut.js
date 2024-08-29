@@ -25,7 +25,7 @@ function Palvelut() {
     return (
         <div>
             <h1>Palvelusivu</h1>
-            <p>Tervetuloa palvelusivulle! Tämä on sivu, jolla on käytettävissä vain kirjautuneille käyttäjille.</p>
+            <p>Tervetuloa palvelusivulle!</p>
 
             <div className="user-info">
                 <h2>Käyttäjän tiedot</h2>
