@@ -81,9 +81,9 @@ Tietokanta on mongodb. Alla tietokannan kaavio:
             index.html              // Perus HTML-tiedosto
             mainifest.json          // Web-sovelluksen manifest-tiedosto
         src/                        // Kaikki React lähdekoodi
-            components/             // REact komponentit
+            components/             // React komponentit
                 Login.js            // Login komponentti
-                Palvelut.js         // Plavelut komponentti
+                Palvelut.js         // Palvelut komponentti
                 PrivateRoute.js     // PrivateRoute komponentti
                 Register.js         // Register komponentti
                 UserManagement.js   // Käyttäjänhallinta komponentti
