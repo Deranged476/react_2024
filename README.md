@@ -2,29 +2,58 @@
 
 ## Sovelluksen siirto al 2023 instanssille
 
-1. Lisää aws:än security group uusi inbound rule, joka sallii portin 5000 tcp-protokollalla 
-2. Tiedostojen siirto palvelimelle (githubin main-branch)
+**1. Lisää aws:än security group uusi inbound rule, joka sallii portin 5000 tcp-protokollalla** 
+**2. Tiedostojen siirto palvelimelle (githubin main-branch)**
 
-        /var/www/react_2024
-3. .env tiedoston luonti backend kansioon
+    /var/www/react_2024
+
+**3. .env tiedoston luonti backend kansioon**
 
     PORT=5000
-    MONGODB_URI=mongodb+srv://<käyttäjä>:<salasana>@cluster0.ff9bnq3.mongodb.net/hallinta?retryWrites=true&w=majority&appName=Cluster0
+&nbsp;
+
+    MONGODB_URI=mongodb+srv://<käyttäjä>:<salasana>@cluster0.ff9bnq3.mongodb.net/
+&nbsp;
+
+    hallinta?retryWrites=true&w=majority&appName=Cluster0
+&nbsp;
+
     JWT_SECRET_KEY=<salainenavain>
 
-4. Asenna noden moduulit
+**4. Asenna noden moduulit**
 
-        cd /var/www/react_2024/backend
-        npm install
-        cd ../frontend
-        npm install    
+    cd /var/www/react_2024/backend
+&nbsp;
 
-5. Tee react build
+    npm install
+&nbsp;
 
-        cd /var/www/react_2024/frontend
-        npm run build
+    cd ../frontend
+&nbsp;
 
-6. Käynnistys (valinnainen)
+     npm install    
+
+**5. Tee react build**
+
+    cd /var/www/react_2024/frontend
+&nbsp;
+
+    npm run build
+
+**6. Http:n (port 80) käyttöönotto (valinnainen)**
+
+    sudo dnf install iptables
+
+Redirect rulen käyttöön ottaminen:
+
+    sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 5000
+
+Redirect rulen poistaminen:
+
+    sudo iptables -D PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 5000
+
+
+**6. Käynnistys (valinnainen)**
 
         cd /var/www/react_2024/backend
         npm start
