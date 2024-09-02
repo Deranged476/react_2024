@@ -100,21 +100,23 @@ Tietokanta on mongodb. Alla tietokannan kaavio:
     README.md                       // Projectin yleinen kuvaus ja ohjeet
 
 ### App
-    
+ Sovelluksen pääkomponentti
  
 ### Komponentit
     
 
 #### Login 
-    
+ Kirjautumis komponetti
 
 #### Register
-    
+ Rekisteröinti komponentti
 
 #### UserManagement
+ käyttäjien hallinta
     
 #### Palvelut
-    Käyttäjä pääsee vain /palvelut sivulle jos on kirjtunut sisään olemassa olevalla tunnuksella 
+ Käyttäjä pääsee vain /palvelut sivulle jos on kirjtunut sisään olemassa olevalla tunnuksella.
+ /palvelut sivulla sijaitsee käyttäj toiminnot
 
 #### PrivateRoute
     
