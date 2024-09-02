@@ -10,7 +10,7 @@ function UserManagement() {
 
     useEffect(() => {
         // Haetaan käyttäjät
-        axios({url:"http://localhost:5000/api/users/",method:"get"})
+        axios({url:"http://" + window.location.hostname + ":5000/api/users/",method:"get"})
         .then((response) => {
         console.log(response.data.message);
         setUsers(response.data.users);
