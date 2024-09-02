@@ -46,11 +46,15 @@
 
 Redirect rulen käyttöön ottaminen:
 
-    sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 5000
+    sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 5000 &&
+    sudo iptables -A POSTROUTING -t nat -i eth0 -p tcp --dport 5000 -j REDIRECT --to-port 80
+
+
 
 Redirect rulen poistaminen:
 
-    sudo iptables -D PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 5000
+    sudo iptables -D PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 5000 &&
+    sudo iptables -D POSTROUTING -t nat -i eth0 -p tcp --dport 5000 -j REDIRECT --to-port 80
 
 
 **6. Käynnistys (valinnainen)**
