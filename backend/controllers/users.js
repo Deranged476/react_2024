@@ -160,7 +160,8 @@ export async function isLoggedIn(req, res, next) {
 
 // Päivittää käyttäjää käyttäjänimen, uusien tietojen perusteella
 export function updateUser(req, res, next) {
-  if (!req.body.username || !req.body.password || !req.body.bio) {
+  res.setHeader("Content-Type", "application/json");
+  if (!req.body.username && !req.body.password && !req.body.bio) {
     res.status(400).json({
       user: {},
       message: "username, password or bio is not defined",
