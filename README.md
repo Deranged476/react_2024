@@ -1,5 +1,34 @@
 # Käyttäjäjienhallinta järjestelmä
 
+## Sovelluksen siirto al 2023 instanssille
+
+1. Lisää aws:än security group uusi inbound rule, joka sallii portin 5000 tcp-protokollalla 
+2. Tiedostojen siirto palvelimelle (githubin main-branch)
+
+        /var/www/react_2024
+3. .env tiedoston luonti backend kansioon
+
+    PORT=5000
+    MONGODB_URI=mongodb+srv://<käyttäjä>:<salasana>@cluster0.ff9bnq3.mongodb.net/hallinta?retryWrites=true&w=majority&appName=Cluster0
+    JWT_SECRET_KEY=<salainenavain>
+
+4. Asenna noden moduulit
+
+        cd /var/www/react_2024/backend
+        npm install
+        cd ../frontend
+        npm install    
+
+5. Tee react build
+
+        cd /var/www/react_2024/frontend
+        npm run build
+
+6. Käynnistys (valinnainen)
+
+        cd /var/www/react_2024/backend
+        npm start
+
 ## Backend
 
 ### Tiedostot
@@ -89,8 +118,6 @@ Tietokanta on mongodb. Alla tietokannan kaavio:
 
 #### PrivateRoute
     
-    
-
 
 
         
