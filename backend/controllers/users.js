@@ -49,15 +49,15 @@ export function getUser(req, res, next) {
 // Rekisteröi uuden käyttäjän
 export async function registerUser(req, res, next) {
   res.setHeader("Content-Type", "application/json");
-  if (!req.body.username || !req.body.password || !req.body.bio) {
+  if (!req.body.username) {
     res
       .status(400)
-      .json({ user: {}, message: "username, password or bio is not defined" });
+      .json({ user: {}, message: "username is not defined" });
     return;
   }
 
   const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  const hashedPassword = await bcrypt.hash((req.body.password) ? (req.body.password) : (""), salt);
 
   UserModel.create({
     username: req.body.username,
