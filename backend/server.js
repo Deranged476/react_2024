@@ -24,7 +24,7 @@ import { usersRoutes } from "./routes/api.js";
 
 const app = express();
 
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 5000;
 
 
 const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
