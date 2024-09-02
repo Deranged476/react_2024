@@ -33,7 +33,7 @@ function Login() {
         console.log(response.data);
         console.log(response.status);
         setSuccessMessage(' Käyttäjän lisääminen onnistui');
-        localStorage.setItem('auth1', response.token)
+        localStorage.setItem('auth1', response.data.token)
         navigate('/palvelut')
     })
     .catch((err) => {
