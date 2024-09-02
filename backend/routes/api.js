@@ -8,7 +8,7 @@ import {
   deleteUser,
   logUserIn,
   isLoggedIn
-} from "../controllers/Users.js";
+} from "../controllers/users.js";
 
 export var usersRoutes = express.Router();
 // Palauttaa kaikki käyttäjät
@@ -19,6 +19,8 @@ usersRoutes.get("/:username", isLoggedIn, getUser);
 usersRoutes.post("/", registerUser);
 // Kirjaa käyttäjän sisään
 usersRoutes.post("/login", logUserIn);
+// Tarkistaa onko käyttäjä kirjautunut sisään
+usersRoutes.post("/isLoggedIn", isLoggedIn,(req,res) => {res.setHeader("Content-Type", "application/json");res.status(200).json({message:"Käyttäjä on kirjatunut",username:req.user,success:true})});
 // Päivittää olemassa olevaa käyttäjää
 usersRoutes.put("/:username", updateUser);
 // Poistaa olemassa olevan käyttäjän

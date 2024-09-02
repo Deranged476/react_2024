@@ -141,8 +141,8 @@ export async function isLoggedIn(req, res, next) {
       });
     }
 
-    // Adding user information to the request object
-    req.user = payload;
+    // Adding user name to the request object
+    req.user = payload.name;
     console.log(payload);
     
     // Checking if user exists
@@ -157,8 +157,6 @@ export async function isLoggedIn(req, res, next) {
     next();
   });
 }
-
-
 
 // Päivittää käyttäjää käyttäjänimen, uusien tietojen perusteella
 export function updateUser(req, res, next) {

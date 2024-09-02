@@ -2,6 +2,8 @@
 import mongoose from "mongoose";
 import express from "express";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 import bodyParser from "body-parser";
 // .env tiedoston käyttöönotto
 import dotenv from "dotenv";
@@ -24,8 +26,15 @@ const app = express();
 
 const port = process.env.PORT || 5000;
 
+
+const __filename = fileURLToPath(import.meta.url); // get the resolved path to the file
+const __dirname = path.dirname(__filename); // get the name of the directory
+
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }))
+
 app.use("/api/users", usersRoutes);
 
 app.listen(port, () => {
