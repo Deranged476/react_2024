@@ -15,7 +15,7 @@ function Palvelut() {
         console.log(token);
         if(token) {
             // Tarkistetaan onko käyttäjä kirjatunut sisään
-            axios({url:"http://" + window.location.hostname + ":5000/api/users/isLoggedIn",method:"post",headers:{"Authorization":token,"Content-Type": "application/x-www-form-urlencoded"}})
+            axios({url:"http://" + window.location.hostname + "/api/users/isLoggedIn",method:"post",headers:{"Authorization":token,"Content-Type": "application/x-www-form-urlencoded"}})
             .then((response) => {
             setUsername(response.data.username);
             })

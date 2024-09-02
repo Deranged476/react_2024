@@ -10,7 +10,7 @@ function UserManagement() {
 
     useEffect(() => {
         // Haetaan käyttäjät
-        axios({url:"http://" + window.location.hostname + ":5000/api/users/",method:"get"})
+        axios({url:"http://" + window.location.hostname + "/api/users/",method:"get"})
         .then((response) => {
         console.log(response.data.message);
         setUsers(response.data.users);
@@ -36,7 +36,7 @@ function UserManagement() {
         if (editingUser) {
             // Jos ollaan muokkaustilassa, päivitetään olemassa oleva käyttäjä 
 
-            axios({url:"http://" + window.location.hostname + ":5000/api/users/"+editingUser.username,method:"put",data:querystring.stringify(newUser),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
+            axios({url:"http://" + window.location.hostname + "/api/users/"+editingUser.username,method:"put",data:querystring.stringify(newUser),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
         .then((response) => {
         console.log(response.data.message);
         setUsers(users.map(user => (user.username === editingUser.username ? newUser : user)));
@@ -52,7 +52,7 @@ function UserManagement() {
             
         } else {
             // Muussa tapauksessa lisätään uusi käyttäjä
-            axios({url:"http://" + window.location.hostname + ":5000/api/users/",method:"post",data:querystring.stringify(newUser),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
+            axios({url:"http://" + window.location.hostname + "/api/users/",method:"post",data:querystring.stringify(newUser),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
         .then((response) => {
         console.log(response.data.message);
         setUsers(users.map(user => (user.username === editingUser.username ? newUser : user)));
@@ -76,7 +76,7 @@ function UserManagement() {
 
     // handleDelete-funktio poistaa käyttäjän listasta
     const handleDelete = (username) => {
-        axios({url:"http://" + window.location.hostname + ":5000/api/users/"+username,method:"delete"})
+        axios({url:"http://" + window.location.hostname + "/api/users/"+username,method:"delete"})
         .then((response) => {
             console.log(response.data.message);
         })
