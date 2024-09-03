@@ -12,10 +12,7 @@
     PORT=5000
 &nbsp;
 
-    MONGODB_URI=mongodb+srv://<käyttäjä>:<salasana>@cluster0.ff9bnq3.mongodb.net/
-&nbsp;
-
-    hallinta?retryWrites=true&w=majority&appName=Cluster0
+    MONGODB_URI=mongodb+srv://<käyttäjä>:<salasana>@cluster0.ff9bnq3.mongodb.net/hallinta?retryWrites=true&w=majority&appName=Cluster0
 &nbsp;
 
     JWT_SECRET_KEY=<salainenavain>
@@ -46,11 +43,11 @@
 
 Redirect rulen käyttöön ottaminen:
 
-    sudo iptables-nft -A PREROUTING -i enX0 -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 5000
+    sudo iptables-nft -t nat -A PREROUTING -i enX0 -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 5000
 
 Redirect rulen poistaminen:
 
-    sudo iptables-nft -D PREROUTING -i enX0 -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 5000
+    sudo iptables-nft -t nat -D PREROUTING -i enX0 -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 5000
 
 
 **6. Käynnistys (valinnainen)**
