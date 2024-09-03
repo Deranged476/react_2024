@@ -127,9 +127,19 @@ export async function logUserIn(req, res, next) {
 
 export async function isLoggedIn(req, res, next) {
   const { authorization } = req.headers;
-  console.log(authorization);
+
+  var token;
   // Removing 'Bearer ' prefix to get the token
-  const token = authorization.replace("Bearer ", "");
+  try {
+    token = authorization.replace("Bearer ", "");
+  } catch(err) {
+    res.setHeader("Content-Type", "application/json");
+      return res.status(403).json({
+        message: "Tokenia ei ollut",
+        error: true,
+      });
+  }
+  
 
   //Verifying if the token is valid.
   jwt.verify(token, process.env.JWT_SECRET_KEY, async (err, payload) => {
