@@ -47,3 +47,8 @@ app.get('*', (req,res) =>{
 app.listen(port, () => {
   console.log(`user-management-app listening on port ${port}/api/users/`);
 });
+
+/*app.listen(port, '0.0.0.0',() => {
+  console.log(`user-management-app listening on port ${port}/api/users/`);
+});*/
+

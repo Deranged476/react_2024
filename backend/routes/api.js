@@ -3,6 +3,7 @@ import express from "express";
 import {
   getUsers,
   getUser,
+  getCurrentUser,
   registerUser,
   updateUser,
   deleteUser,
@@ -13,6 +14,7 @@ import {
 export var usersRoutes = express.Router();
 // Palauttaa kaikki käyttäjät
 usersRoutes.get("/", getUsers);
+usersRoutes.get("/current", isLoggedIn, getCurrentUser);
 // Palauttaa käyttäjän käyttäjänimen perusteella
 usersRoutes.get("/:username", isLoggedIn, getUser);
 // Rekisteröi uuden käyttäjän

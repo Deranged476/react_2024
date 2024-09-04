@@ -7,6 +7,7 @@ import UserManagement from './components/UserManagement';
 import Palvelut from './components/Palvelut';
 import PrivateRoute from './components/PrivateRoute';
 import './App.css';
+import EditUser from './components/UserEdit';
 
 // App-komponentti on sovelluksen pääkomponentti
 function App() {
@@ -45,6 +46,7 @@ function App() {
                     <Route path="/kayttajat" element={<UserManagement />} />
                     {/*<Route path='/palvelut' element={<Palvelut/>} />*/}
                     <Route path="/palvelut" element={<PrivateRoute><Palvelut /></PrivateRoute>} />
+                    <Route path="/muokkaus" element={<PrivateRoute><EditUser /></PrivateRoute>} />
                 </Routes>
             </div>
         </Router>

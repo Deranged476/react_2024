@@ -13,6 +13,7 @@
 # production
 /frontend/build
 /backend/build
+/frontend/src/components/UserManagement2.js
 
 # misc
 .DS_Store

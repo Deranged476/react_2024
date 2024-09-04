@@ -16,7 +16,7 @@ function Palvelut() {
     const manageProfile = () => {
         // Lisätään haluttu toiminnallisuus profiilin hallintaan
         console.log('Profiilin hallinta avattu');
-        navigate('/kayttajat');
+        navigate('/muokkaus');
     };
 
     const performAction = () => {

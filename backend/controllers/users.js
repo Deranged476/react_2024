@@ -4,6 +4,70 @@ import { UserModel } from "../models/User.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
+// Palauttaa ja päivittää nykyisen käyttäjän tiedot json muodossa
+// Palauttaa ja päivittää nykyisen käyttäjän tiedot json muodossa
+export function getCurrentUser(req, res, next) {
+  res.setHeader("Content-Type", "application/json");
+
+  // Assuming the username is stored in req.user from isLoggedIn middleware
+  UserModel.findOne({ username: req.user })
+    .select("username bio -_id")
+    .then((user) => {
+      if (user) {
+        // Päivitä käyttäjän tiedot, jos req.body sisältää päivityksiä
+        const updateData = {
+          username: req.body.username || user.username,
+          password: req.body.password || user.password,
+          bio: req.body.bio || user.bio,
+        };
+
+        UserModel.updateOne({ username: req.user }, updateData)
+          .then((updateResult) => {
+            if (updateResult.nModified > 0) {
+              res.status(200).json({
+                user: {
+                  nimi: updateData.username,
+                  bio: updateData.bio,
+                },
+                message: "Käyttäjän tiedot päivitettiin ja haettiin onnistuneesti",
+                error: false,
+              });
+            } else {
+              res.status(200).json({
+                user: {
+                  nimi: updateData.username,
+                  bio: updateData.bio,
+                },
+                message: "Käyttäjän tiedot haettiin onnistuneesti, mutta päivitystä ei tarvittu",
+                error: false,
+              });
+            }
+          })
+          .catch((err) => {
+            res.status(500).json({
+              user: null,
+              message: "Palvelin virhe käyttäjän päivityksessä",
+              error: true,
+            });
+          });
+      } else {
+        res.status(404).json({
+          user: null,
+          message: "Käyttäjää ei löytynyt",
+          error: true,
+        });
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        user: null,
+        message: "Palvelin virhe",
+        error: true,
+      });
+    });
+}
+
+
 // Palauttaa kaikki käyttäjät json muodosssa
 export function getUsers(req, res, next) {
   res.setHeader("Content-Type", "application/json");
@@ -27,7 +91,7 @@ export function getUser(req, res, next) {
   res.setHeader("Content-Type", "application/json");
 
   UserModel.findOne({ username: req.params.username })
-    .select("username bio -_id")
+    .select("username bio -_id password")
     .then((user) => {
       if (user)
         res
