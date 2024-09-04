@@ -49,13 +49,43 @@ Redirect rulen poistaminen:
 
     sudo iptables-nft -t nat -D PREROUTING -i enX0 -p tcp -m tcp --dport 80 -j REDIRECT --to-ports 5000
 
-### **7. Buildin tekeminen /var/www/html kansioon (jos hauat käyttää sekä apachea, että nodea)**
+### **8. Buildin tekeminen /var/www/html kansioon (jos hauat käyttää sekä apachea, että nodea)**
 
 Muutetaan package json skripteistä build skriptiä. Oletetaan että projekti on sijoitettu /var/www/ -kansioon 
 
     "build": "BUILD_PATH='../html/build/' react-scripts build",
 
-### **8. Httpd kofiguraation muuttaminen (jos haluat käyttää sekä apachea, että nodea)**
+### **9. sls/tls sertifikaatin hankkiminen (valinnainen)**
+
+Asenna vaaditut moduulit
+
+    sudo dnf install openssl mod_ssl
+
+Jos käytät apachea, niin sertifikaatin luomiseen käytettävä komento on:
+
+    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/pki/tls/private/apache-selfsigned.key -out /etc/pki/tls/certs/apache-selfsigned.crt
+
+Jos käytät pelkästään nodea, niin komento on:
+
+    sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /var/www/react2024/backend/node-selfsigned.key -out /var/www/react2024/backend/node-selfsigned.crt
+
+Seuraavaksi vastailet kysymyksiin, jonka jälkeen sertifikaatti tiedostot luodaan.
+
+### **10. Https nodelle (jos käytät pelkästään nodea)**
+
+Avaa server.js tiedosto nano editorilla.
+
+    sudo nano /var/www/react2024/backend/server.js
+
+Ota https ja fs moduulit käyttöön. Voit poistaa // import-lauseiden edestä.
+
+Ota tiedoston lopussa oleva koodi käyttöön poistamalla const options, const server ja server.listen lauseiden edestä // -merkkiä.
+
+Muuta alla oleva app.listen takaisin kommentiksi
+
+Editoinnin jälkeen voit tallentaa painamalla ctrl + s ja ctrl + x.
+
+### **10. Httpd kofiguraation muuttaminen (jos haluat käyttää sekä apachea, että nodea)**
 
 Jotta palvelin pystyy jakamaan react-buildia juuresta ja api pyynnöt ohjataan noden backendille.
 
@@ -81,13 +111,37 @@ Lisätään tiedoston loppuun heti rivin EnableSendfile on jälkeen tekstit:
 
 Muista muuttaa < palvelimen ip > paikalle palvelimen ip.
 
-Kun saat tekstin lisättyä, niin voit tallentaa painamalla ctrl + s ja poistua ctrl + x.
+Jos haluat ottaa ssl/tls salauksen käyttöön, niin laita vielä tuon tekstin jälkeen seuraava teksti:
+
+    <VirtualHost *:443>
+        ServerName 35.175.138.16
+        DocumentRoot /var/www/html/build
+
+        <Directory "/var/www/html/build">
+            AllowOverride All
+            Require all granted
+        </Directory>
+
+        SSLEngine on
+        SSLProtocol all -SSLv2
+        SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
+        SSLCertificateFile "/etc/pki/tls/certs/apache-selfsigned.crt"
+        SSLCertificateKeyFile "/etc/pki/tls/private/apache-selfsigned.key"
+
+        # Proxy requests to backend
+        ProxyPass /api/ http://localhost:5000/api/
+        ProxyPassReverse /api/ http://localhost:5000/api/
+    </VirtualHost>
+
+Muista muuttaa < palvelimen ip > paikalle palvelimen ip.
+
+Kun saat tekstit lisättyä, niin voit tallentaa painamalla ctrl + s ja poistua ctrl + x.
 
 Lopuksi käynnistetään palvelin uudestaan:
 
     sudo systemctl restart httpd
 
-### **9. Reactin routerin toiminnan parannus (jos haluat käyttää sekä apachea, että nodea)**
+### **12. Reactin routerin toiminnan parannus (jos haluat käyttää sekä apachea, että nodea)**
 
 Jotta reactin routerin url osoitteet toimisivat palvelimellamme oikein, niin palvelimen tulee jakaa index.html (reactin käynnistys piste) kun siltä sivun react-sivun url:lää.
 
@@ -111,7 +165,7 @@ Lopuksi käynnistetään palvelin uudestaan:
 
     sudo systemctl restart httpd
 
-### **10. Käynnistys (valinnainen)**
+### **13. Käynnistys (valinnainen)**
 
 Käynnistys projekti kansiosta
 
