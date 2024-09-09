@@ -9,7 +9,8 @@ import {
   updateUser,
   deleteUser,
   logUserIn,
-  isLoggedIn
+  isLoggedIn,
+  getLoggedInUsername
 } from "../controllers/users.js";
 
 export var usersRoutes = express.Router();
@@ -22,6 +23,9 @@ usersRoutes.get("/current", isLoggedIn, getCurrentUser);
 
 // Palauttaa käyttäjän käyttäjänimen perusteella
 usersRoutes.get("/:username", isLoggedIn, getUser);
+
+// Palauttaa kirjautuneen käyttäjän nimen
+usersRoutes.post("/username",isLoggedIn,getLoggedInUsername);
 
 // Rekisteröi uuden käyttäjän
 usersRoutes.post("/", registerUser);
