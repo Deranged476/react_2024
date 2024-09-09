@@ -20,7 +20,7 @@ const EditUser = () => {
     }, []);
   const fetchUserData = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/users/current', {
+      const response = await fetch('http://' + window.location.hostname + ':5000/api/users/current', {
         method: 'GET',
         credentials: 'include'
       });
@@ -43,7 +43,7 @@ const EditUser = () => {
     }
 
     try {
-        const response = await fetch('http://localhost:5000/api/users/current', {
+        const response = await fetch('http://' + window.location.hostname + ':5000/api/users/current', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -67,7 +67,7 @@ const EditUser = () => {
 
     const handleBioChange = async () => {
       try {
-          const response = await fetch('http://localhost:5000/api/users/current', {
+          const response = await fetch('http://' + window.location.hostname + ':5000/api/users/current', {
               method: 'PUT',
               headers: {
                   'Content-Type': 'application/json'
@@ -92,7 +92,7 @@ const EditUser = () => {
 
   const updateUser = async (updates) => {
     try {
-        const response = await fetch('http://localhost:5000/api/users/current', {
+        const response = await fetch('http://' + window.location.hostname + ':5000/api/users/current', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
