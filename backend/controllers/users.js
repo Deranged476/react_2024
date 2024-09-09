@@ -66,6 +66,11 @@ export function getCurrentUser(req, res, next) {
     });
 }
 
+// Palauttaa kirjautuuneen käyttäjän nimen json muodossa
+export function getLoggedInUsername(req, res, next) {
+  res.setHeader("Content-Type", "application/json");
+  res.status(200).json({username:req.username});
+}
 
 // Palauttaa kaikki käyttäjät json muodosssa
 export function getUsers(req, res, next) {
@@ -215,7 +220,7 @@ export async function isLoggedIn(req, res, next) {
     }
 
     // Adding user name to the request object
-    req.user = payload.name;
+    req.username = payload.name;
     console.log(payload);
     
     // Checking if user exists
