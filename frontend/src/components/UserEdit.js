@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-//import axios from 'axios';
+import axios from 'axios';
 import '../App.css'; 
 
 const EditUser = () => {
@@ -18,128 +18,99 @@ const EditUser = () => {
     useEffect(() => {
       fetchUserData();
     }, []);
-  const fetchUserData = async () => {
-    try {
-      const response = await fetch('http://' + window.location.hostname + ':5000/api/users/current', {
-        method: 'GET',
-        credentials: 'include'
-      });
+    const fetchUserData = async () => {
+        try {
+            const response = await axios.get('http://' + window.location.hostname + ':5000/api/users/current', {
+                withCredentials: true
+            });
+            setUserData({ username: response.data.user.username, bio: response.data.user.bio });
+        } catch (error) {
+            console.error('Error käyttäjän tietojen haussa:', error);
+            setError('Error käyttäjän tietojen haussa');
+        }
+    };
 
-      if (!response.ok) {
-        throw new Error('Käyttäjän tietojen haku epäonnistui');
-      }
+    const handlePasswordChange = async () => {
+        if (newPassword !== confirmPassword) {
+            setError('New passwords do not match');
+            return;
+        }
 
-      const data = await response.json();
-      setUserData({ username: data.user.username, bio: data.user.bio });
-    } catch (error) {
-      console.error('Error käyttäjän tietojen haussa', error);
-    }
-  };
-
-  const handlePasswordChange = async () => {
-    if (newPassword !== confirmPassword) {
-        setError('New passwords do not match');
-        return;
-    }
-
-    try {
-        const response = await fetch('http://' + window.location.hostname + ':5000/api/users/current', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include',
-            body: JSON.stringify({ oldPassword, newPassword })
-        });
-
-        if (response.status === 200) {
+        try {
+            await axios.put('http://' + window.location.hostname + ':5000/api/users/current', 
+                { oldPassword, newPassword },
+                { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+            );
             setSuccess('Password updated successfully');
             setError('');
-        } else {
+        } catch (error) {
             setError('Password update failed');
             setSuccess('');
+            console.error('Error updating password:', error);
         }
-    } catch (error) {
-        setError('Password update failed');
-        setSuccess('');
-    }
-};
+    };
 
     const handleBioChange = async () => {
-      try {
-          const response = await fetch('http://' + window.location.hostname + ':5000/api/users/current', {
-              method: 'PUT',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              credentials: 'include',
-              body: JSON.stringify({ bio })
-          });
-
-          if (response.status === 200) {
-              setSuccess('Bio updated successfully');
-              setError('');
-          } else {
-              setError('Bio update failed');
-              setSuccess('');
-          }
-      } catch (error) {
-          setError('Bio update failed');
-          setSuccess('');
-      }
-  };
-
-
-  const updateUser = async (updates) => {
-    try {
-        const response = await fetch('http://' + window.location.hostname + ':5000/api/users/current', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include',
-            body: JSON.stringify(updates)
-        });
-
-        if (response.ok) {
-            setSuccess('Päivitys onnistui');
+        try {
+            await axios.put('http://' + window.location.hostname + ':5000/api/users/current', 
+                { bio },
+                { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+            );
+            setSuccess('Bio updated successfully');
             setError('');
-        } else {
-            throw new Error('Päivitys epäonnistui');
+        } catch (error) {
+            setError('Bio update failed');
+            setSuccess('');
+            console.error('Error updating bio:', error);
         }
-    } catch (error) {
-        setError('Päivitys epäonnistui');
-        setSuccess('');
-        console.error(error);
     }
-};
 
 
-  const handleSubmit = async (e) => {
-      e.preventDefault();
-  
-      if (newPassword !== confirmPassword) {
-        alert('Uusi salasana ja sen vahvistus eivät täsmää');
-        return;
-      }
+    const updateUser = async (updates) => {
+        try {
+            await axios.put('http://' + window.location.hostname + ':5000/api/users/current', 
+                updates,
+                { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+            );
+            setSuccess('Update successful');
+            setError('');
+        } catch (error) {
+            setError('Update failed');
+            setSuccess('');
+            console.error('Error updating user data:', error);
+        }
+    };
 
-      const updates = {};
-      if (oldPassword || newPassword) {
-          updates.password = { oldPassword, newPassword };
-      }
-      if (bio) {
-          updates.bio = bio;
-      }
-  
-      try {
-        await handlePasswordChange(); // Call password change function
-        await handleBioChange(); 
-        await updateUser(updates);
 
-        navigate('/palvelut'); 
-    } catch (error) {
-        console.error('Error updating user data:', error);
-    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (newPassword !== confirmPassword) {
+            alert('New password and its confirmation do not match');
+            return;
+        }
+
+        const updates = {};
+        if (oldPassword || newPassword) {
+            updates.password = { oldPassword, newPassword };
+        }
+        if (bio) {
+            updates.bio = bio;
+        }
+
+        try {
+            if (oldPassword || newPassword) {
+                await handlePasswordChange();
+            }
+            if (bio) {
+                await handleBioChange();
+            }
+            await updateUser(updates);
+
+            navigate('/palvelut'); 
+        } catch (error) {
+            console.error('Error updating user data:', error);
+        }
     };
 
     return (
