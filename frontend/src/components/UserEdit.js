@@ -1,67 +1,124 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import '../App.css'; 
 
 const EditUser = () => {
+    const [userData, setUserData] = useState({ username: '', bio: '' });
+    //const [username, setUsername] = useState('');
     const [oldPassword, setOldPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [bio, setBio] = useState('');
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-
     const navigate = useNavigate();
+
+// haku
+    useEffect(() => {
+      fetchUserData();
+    }, []);
+    const fetchUserData = async () => {
+        try {
+            const response = await axios.get('http://' + window.location.hostname + ':5000/api/users/current', {
+                withCredentials: true
+            });
+            setUserData({ username: response.data.user.username, bio: response.data.user.bio });
+        } catch (error) {
+            console.error('Error käyttäjän tietojen haussa:', error);
+            setError('Error käyttäjän tietojen haussa');
+        }
+    };
 
     const handlePasswordChange = async () => {
         if (newPassword !== confirmPassword) {
-            setError('Uudet salasanat eivät täsmää');
+            setError('New passwords do not match');
             return;
         }
 
         try {
-            const response = await axios.put('http://localhost:5000/api/users/password', {
-                oldPassword,
-                newPassword,
-            });
-
-            if (response.status === 200) {
-                setSuccess('Salasanan päivitys onnistui');
-                setError('');
-            }
+            await axios.put('http://' + window.location.hostname + ':5000/api/users/current', 
+                { oldPassword, newPassword },
+                { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+            );
+            setSuccess('Password updated successfully');
+            setError('');
         } catch (error) {
-            setError('Salasanan päivitys epäonnistui');
+            setError('Password update failed');
             setSuccess('');
+            console.error('Error updating password:', error);
         }
     };
 
     const handleBioChange = async () => {
         try {
-            const response = await axios.put('http://localhost:5000/api/users/bio', { bio });
-
-            if (response.status === 200) {
-                setSuccess('Bion päivitys onnistuiy');
-                setError('');
-            }
+            await axios.put('http://' + window.location.hostname + ':5000/api/users/current', 
+                { bio },
+                { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+            );
+            setSuccess('Bio updated successfully');
+            setError('');
         } catch (error) {
-            setError('Bio päivitys epäonnistui');
+            setError('Bio update failed');
             setSuccess('');
+            console.error('Error updating bio:', error);
+        }
+    }
+
+
+    const updateUser = async (updates) => {
+        try {
+            await axios.put('http://' + window.location.hostname + ':5000/api/users/current', 
+                updates,
+                { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+            );
+            setSuccess('Update successful');
+            setError('');
+        } catch (error) {
+            setError('Update failed');
+            setSuccess('');
+            console.error('Error updating user data:', error);
         }
     };
 
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (oldPassword || newPassword || confirmPassword) {
-            await handlePasswordChange();
+
+        if (newPassword !== confirmPassword) {
+            alert('New password and its confirmation do not match');
+            return;
         }
 
+        const updates = {};
+        if (oldPassword || newPassword) {
+            updates.password = { oldPassword, newPassword };
+        }
         if (bio) {
-            await handleBioChange();
+            updates.bio = bio;
+        }
+
+        try {
+            if (oldPassword || newPassword) {
+                await handlePasswordChange();
+            }
+            if (bio) {
+                await handleBioChange();
+            }
+            await updateUser(updates);
+
+            navigate('/palvelut'); 
+        } catch (error) {
+            console.error('Error updating user data:', error);
         }
     };
 
     return (
         <div>
             <h2>Muokkaa profiilia</h2>
+            {userData.username && <h3>{userData.username}</h3>}
+            {error && <p className='errormessage'>{error}</p>}
+            {success && <p className='successmessage'>{success}</p>}
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Vanha salasana:</label>
@@ -93,11 +150,10 @@ const EditUser = () => {
                         value={bio}
                         onChange={(e) => setBio(e.target.value)}
                     />
-                </div>
+                </div><br></br>
                 <button type="submit">Päivitä profiili</button>
             </form>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-            {success && <p style={{ color: 'green' }}>{success}</p>}
+
         </div>
     );
 };

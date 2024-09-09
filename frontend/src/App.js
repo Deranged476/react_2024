@@ -47,9 +47,9 @@ function App() {
                     <Route path="/kirjautuminen" element={<Login />} />
                     <Route path="/kayttajat" element={<UserManagement />} />
                     {/*<Route path='/palvelut' element={<Palvelut/>} />*/}
+                    {/*<Route path='/muokkaus' element={<EditUser/>} />*/}
                     <Route path="/palvelut" element={<PrivateRoute><Palvelut /></PrivateRoute>} />
-                    <Route path='/muokkaus' element={<EditUser/>} />
-                    {/*<Route path="/muokkaus" element={<PrivateRoute><EditUser /></PrivateRoute>} />*/}
+                    <Route path="/muokkaus" element={<PrivateRoute><EditUser /></PrivateRoute>} />
                 </Routes>
             </div>
         </Router>
