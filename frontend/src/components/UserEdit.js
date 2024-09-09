@@ -26,7 +26,7 @@ const EditUser = () => {
             setUserData({ username: response.data.user.username, bio: response.data.user.bio });
         } catch (error) {
             console.error('Error käyttäjän tietojen haussa:', error);
-            setError('Error käyttäjän tietojen haussa');
+            setError('Virhe käyttäjän tietojen haussa');
         }
     };
 
@@ -65,7 +65,6 @@ const EditUser = () => {
         }
     }
 
-
     const updateUser = async (updates) => {
         try {
             await axios.put('http://' + window.location.hostname + ':5000/api/users/current', 
@@ -80,7 +79,6 @@ const EditUser = () => {
             console.error('Error updating user data:', error);
         }
     };
-
 
     const handleSubmit = async (e) => {
         e.preventDefault();
