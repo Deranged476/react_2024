@@ -3,5 +3,5 @@ COPY . ./
 RUN npm install --prefix ./backend/
 RUN npm install --prefix ./frontend/
 RUN npm run build --prefix ./frontend/
-EXPOSE 3000
+EXPOSE 5000
 CMD ["npm", "start", "--prefix", "./backend/" ]
