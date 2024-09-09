@@ -8,57 +8,68 @@ import bcrypt from "bcrypt";
 export function getCurrentUser(req, res, next) {
   res.setHeader("Content-Type", "application/json");
 
-  // Assuming the username is stored in req.user from isLoggedIn middleware
   UserModel.findOne({ username: req.user })
-    .select("username bio -_id")
+    .select("username bio") 
     .then((user) => {
-      if (user) {
-        // Päivitä käyttäjän tiedot, jos req.body sisältää päivityksiä
-        const updateData = {
-          username: req.body.username || user.username,
-          password: req.body.password || user.password,
-          bio: req.body.bio || user.bio,
-        };
-
-        UserModel.updateOne({ username: req.user }, updateData)
-          .then((updateResult) => {
-            if (updateResult.nModified > 0) {
-              res.status(200).json({
-                user: {
-                  nimi: updateData.username,
-                  bio: updateData.bio,
-                },
-                message: "Käyttäjän tiedot päivitettiin ja haettiin onnistuneesti",
-                error: false,
-              });
-            } else {
-              res.status(200).json({
-                user: {
-                  nimi: updateData.username,
-                  bio: updateData.bio,
-                },
-                message: "Käyttäjän tiedot haettiin onnistuneesti, mutta päivitystä ei tarvittu",
-                error: false,
-              });
-            }
-          })
-          .catch((err) => {
-            res.status(500).json({
-              user: null,
-              message: "Palvelin virhe käyttäjän päivityksessä",
-              error: true,
-            });
-          });
-      } else {
-        res.status(404).json({
+      if (!user) {
+        return res.status(404).json({
           user: null,
           message: "Käyttäjää ei löytynyt",
           error: true,
         });
       }
+
+      const updateData = {};
+      if (req.body.username) updateData.username = req.body.username;
+      if (req.body.password) updateData.password = req.body.password;
+      if (req.body.bio) updateData.bio = req.body.bio;
+
+      if (Object.keys(updateData).length === 0) {
+        return res.status(200).json({
+          user: {
+            username: user.username,
+            bio: user.bio,
+          },
+          message: "Käyttäjän tiedot haettiin onnistuneesti, päivitystä ei tarvittu",
+          error: false,
+        });
+      }
+
+      // Päivitä käyttäjän tiedot, jos req.body sisältää päivityksiä
+      UserModel.updateOne({ username: req.user }, updateData)
+        .then((updateResult) => {
+          if (updateResult.nModified > 0) {
+            return res.status(200).json({
+              user: {
+                username: updateData.username || user.username,
+                bio: updateData.bio || user.bio,
+              },
+              message: "Käyttäjän tiedot päivitettiin onnistuneesti",
+              error: false,
+            });
+          } else {
+            return res.status(200).json({
+              user: {
+                username: user.username,
+                bio: user.bio,
+              },
+              message: "Käyttäjän tiedot haettiin onnistuneesti, mutta päivitystä ei tarvittu",
+              error: false,
+            });
+          }
+        })
+        .catch((err) => {
+          console.error("Error updating user:", err);
+          return res.status(500).json({
+            user: null,
+            message: "Palvelin virhe käyttäjän päivityksessä",
+            error: true,
+          });
+        });
     })
     .catch((err) => {
-      res.status(500).json({
+      console.error("Error finding user:", err);
+      return res.status(500).json({
         user: null,
         message: "Palvelin virhe",
         error: true,

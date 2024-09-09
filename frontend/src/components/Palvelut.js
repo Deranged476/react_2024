@@ -1,7 +1,7 @@
-import React, { useState, useEffect} from "react";
+import React, { /*useState, useEffect*/ } from "react";
 import { useNavigate } from "react-router-dom";
-import querystring from 'querystring';
-import axios from "axios";
+//import querystring from 'querystring';
+//import axios from "axios";
 import '../App.css'
 
 function Palvelut() {
