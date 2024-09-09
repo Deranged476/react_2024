@@ -1,13 +1,15 @@
 import React from 'react';
 //import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'; alkuperäinen import, tällä sovellu ei toimi
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'; // Switch paikkalle Routes
+
 import Register from './components/Register';
 import Login from './components/Login';
 import UserManagement from './components/UserManagement';
 import Palvelut from './components/Palvelut';
 import PrivateRoute from './components/PrivateRoute';
-import './App.css';
 import EditUser from './components/UserEdit';
+
+import './App.css';
 
 // App-komponentti on sovelluksen pääkomponentti
 function App() {
@@ -46,7 +48,8 @@ function App() {
                     <Route path="/kayttajat" element={<UserManagement />} />
                     {/*<Route path='/palvelut' element={<Palvelut/>} />*/}
                     <Route path="/palvelut" element={<PrivateRoute><Palvelut /></PrivateRoute>} />
-                    <Route path="/muokkaus" element={<PrivateRoute><EditUser /></PrivateRoute>} />
+                    <Route path='/muokkaus' element={<EditUser/>} />
+                    {/*<Route path="/muokkaus" element={<PrivateRoute><EditUser /></PrivateRoute>} />*/}
                 </Routes>
             </div>
         </Router>
