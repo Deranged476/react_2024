@@ -4,6 +4,7 @@ import {
   getUsers,
   getUser,
   getCurrentUser,
+  //authenticateToken,
   registerUser,
   updateUser,
   deleteUser,

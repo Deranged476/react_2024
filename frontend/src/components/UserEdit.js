@@ -22,7 +22,7 @@ const EditUser = () => {
     try {
       const response = await fetch('http://localhost:5000/api/users/current', {
         method: 'GET',
-        credentials: 'include' // Tämä varmistaa, että evästeet (kuten JWT) lähetetään pyynnön mukana
+        credentials: 'include'
       });
 
       if (!response.ok) {
@@ -88,20 +88,55 @@ const EditUser = () => {
           setSuccess('');
       }
   };
-// summit
-    const handleSubmit = async (e) => {
+
+
+  const updateUser = async (updates) => {
+    try {
+        const response = await fetch('http://localhost:5000/api/users/current', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify(updates)
+        });
+
+        if (response.ok) {
+            setSuccess('Päivitys onnistui');
+            setError('');
+        } else {
+            throw new Error('Päivitys epäonnistui');
+        }
+    } catch (error) {
+        setError('Päivitys epäonnistui');
+        setSuccess('');
+        console.error(error);
+    }
+};
+
+
+  const handleSubmit = async (e) => {
       e.preventDefault();
   
       if (newPassword !== confirmPassword) {
         alert('Uusi salasana ja sen vahvistus eivät täsmää');
         return;
       }
+
+      const updates = {};
+      if (oldPassword || newPassword) {
+          updates.password = { oldPassword, newPassword };
+      }
+      if (bio) {
+          updates.bio = bio;
+      }
   
       try {
         await handlePasswordChange(); // Call password change function
-        await handleBioChange(); // Call bio change function
+        await handleBioChange(); 
+        await updateUser(updates);
 
-        navigate('/palvelut'); // Redirect to profile page on success
+        navigate('/palvelut'); 
     } catch (error) {
         console.error('Error updating user data:', error);
     }
@@ -111,6 +146,8 @@ const EditUser = () => {
         <div>
             <h2>Muokkaa profiilia</h2>
             {userData.username && <h3>{userData.username}</h3>}
+            {error && <p className='errormessage'>{error}</p>}
+            {success && <p className='successmessage'>{success}</p>}
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Vanha salasana:</label>
@@ -142,11 +179,10 @@ const EditUser = () => {
                         value={bio}
                         onChange={(e) => setBio(e.target.value)}
                     />
-                </div>
+                </div><br></br>
                 <button type="submit">Päivitä profiili</button>
             </form>
-            {error && <p className='errormessage'>{error}</p>}
-            {success && <p className='successmessage'>{success}</p>}
+
         </div>
     );
 };
