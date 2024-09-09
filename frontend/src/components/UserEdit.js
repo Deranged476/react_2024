@@ -13,7 +13,7 @@ const EditUser = () => {
   useEffect(() => {
     // Fetch the current user data when the component mounts
     axios
-      .get('/api/users/me', {
+      .get('localhost:5000/api/users', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('auth1')}`, // Assuming token is stored in localStorage
         },
@@ -39,7 +39,7 @@ const EditUser = () => {
     e.preventDefault();
 
     axios
-      .put(`/api/users/${userData.username}`, userData, {
+      .put(`localhost:5000/api/users/${userData.username}`, userData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },

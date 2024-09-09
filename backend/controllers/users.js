@@ -5,7 +5,6 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 // Palauttaa ja päivittää nykyisen käyttäjän tiedot json muodossa
-// Palauttaa ja päivittää nykyisen käyttäjän tiedot json muodossa
 export function getCurrentUser(req, res, next) {
   res.setHeader("Content-Type", "application/json");
 
