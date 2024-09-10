@@ -20,7 +20,7 @@ const EditUser = () => {
     }, []);
     const fetchUserData = async () => {
         try {
-            const response = await axios.get('http://' + window.location.hostname + ':5000/api/users/current', {
+            const response = await axios.get('https://' + window.location.hostname + ':5000/api/users/current', {
                 withCredentials: true
             });
             setUserData({ username: response.data.user.username, bio: response.data.user.bio });
@@ -37,7 +37,7 @@ const EditUser = () => {
         }
 
         try {
-            await axios.put('http://' + window.location.hostname + ':5000/api/users/current', 
+            await axios.put('https://' + window.location.hostname + ':5000/api/users/current', 
                 { oldPassword, newPassword },
                 { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
             );
@@ -52,7 +52,7 @@ const EditUser = () => {
 
     const handleBioChange = async () => {
         try {
-            await axios.put('http://' + window.location.hostname + ':5000/api/users/current', 
+            await axios.put('https://' + window.location.hostname + ':5000/api/users/current', 
                 { bio },
                 { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
             );
@@ -67,7 +67,7 @@ const EditUser = () => {
 
     const updateUser = async (updates) => {
         try {
-            await axios.put('http://' + window.location.hostname + ':5000/api/users/current', 
+            await axios.put('https://' + window.location.hostname + ':5000/api/users/current', 
                 updates,
                 { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
             );
