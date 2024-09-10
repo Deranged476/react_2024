@@ -10,7 +10,8 @@ function UserManagement() {
 
     useEffect(() => {
         // Haetaan käyttäjät
-        axios({url:"https://" + window.location.hostname + ":5000/api/users/",method:"get"})
+        axios({url:"https://" + window.location.hostname + "/api/users/",method:"get"})
+        //axios({url:"https://" + window.location.hostname + ":5000/api/users/",method:"get"})
         .then((response) => {
         console.log(response.data.message);
         setUsers(response.data.users);
@@ -35,8 +36,8 @@ function UserManagement() {
         e.preventDefault();
         if (editingUser) {
             // Jos ollaan muokkaustilassa, päivitetään olemassa oleva käyttäjä 
-
-            axios({url:"https://" + window.location.hostname + ":5000/api/users/"+editingUser.username,method:"put",data:querystring.stringify(newUser),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
+            //axios({url:"https://" + window.location.hostname + ":5000/api/users/"+editingUser.username,method:"put",data:querystring.stringify(newUser),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
+            axios({url:"https://" + window.location.hostname + "/api/users/"+editingUser.username,method:"put",data:querystring.stringify(newUser),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
         .then((response) => {
         console.log(response.data.message);
         setUsers(users.map(user => (user.username === editingUser.username ? newUser : user)));
@@ -52,7 +53,8 @@ function UserManagement() {
             
         } else {
             // Muussa tapauksessa lisätään uusi käyttäjä
-            axios({url:"https://" + window.location.hostname + ":5000/api/users/",method:"post",data:querystring.stringify(newUser),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
+            axios({url:"https://" + window.location.hostname + "/api/users/",method:"post",data:querystring.stringify(newUser),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
+            //axios({url:"https://" + window.location.hostname + ":5000/api/users/",method:"post",data:querystring.stringify(newUser),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
         .then((response) => {
         console.log(response.data.message);
         setUsers(users.map(user => (user.username === editingUser.username ? newUser : user)));
@@ -76,7 +78,8 @@ function UserManagement() {
 
     // handleDelete-funktio poistaa käyttäjän listasta
     const handleDelete = (username) => {
-        axios({url:"https://" + window.location.hostname + ":5000/api/users/"+username,method:"delete"})
+        axios({url:"https://" + window.location.hostname + "/api/users/"+username,method:"delete"})
+        //axios({url:"https://" + window.location.hostname + ":5000/api/users/"+username,method:"delete"})
         .then((response) => {
             console.log(response.data.message);
         })
