@@ -1,7 +1,7 @@
-import React, { useState, useEffect} from "react";
+import React, { /*useState, useEffect*/ } from "react";
 import { useNavigate } from "react-router-dom";
-import querystring from 'querystring';
-import axios from "axios";
+//import querystring from 'querystring';
+//import axios from "axios";
 import '../App.css'
 
 function Palvelut() {
@@ -16,7 +16,7 @@ function Palvelut() {
     const manageProfile = () => {
         // Lisätään haluttu toiminnallisuus profiilin hallintaan
         console.log('Profiilin hallinta avattu');
-        navigate('/kayttajat');
+        navigate('/muokkaus');
     };
 
     const performAction = () => {

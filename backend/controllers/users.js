@@ -4,6 +4,85 @@ import { UserModel } from "../models/User.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
+// Palauttaa ja päivittää nykyisen käyttäjän tiedot json muodossa
+export function getCurrentUser(req, res, next) {
+  res.setHeader("Content-Type", "application/json");
+
+  UserModel.findOne({ username: req.user })
+    .select("username bio") 
+    .then((user) => {
+      if (!user) {
+        return res.status(404).json({
+          user: null,
+          message: "Käyttäjää ei löytynyt",
+          error: true,
+        });
+      }
+
+      const updateData = {};
+      if (req.body.username) updateData.username = req.body.username;
+      if (req.body.password) updateData.password = req.body.password;
+      if (req.body.bio) updateData.bio = req.body.bio;
+
+      if (Object.keys(updateData).length === 0) {
+        return res.status(200).json({
+          user: {
+            username: user.username,
+            bio: user.bio,
+          },
+          message: "Käyttäjän tiedot haettiin onnistuneesti, päivitystä ei tarvittu",
+          error: false,
+        });
+      }
+
+      // Päivitä käyttäjän tiedot, jos req.body sisältää päivityksiä
+      UserModel.updateOne({ username: req.user }, updateData)
+        .then((updateResult) => {
+          if (updateResult.nModified > 0) {
+            return res.status(200).json({
+              user: {
+                username: updateData.username || user.username,
+                bio: updateData.bio || user.bio,
+              },
+              message: "Käyttäjän tiedot päivitettiin onnistuneesti",
+              error: false,
+            });
+          } else {
+            return res.status(200).json({
+              user: {
+                username: user.username,
+                bio: user.bio,
+              },
+              message: "Käyttäjän tiedot haettiin onnistuneesti, mutta päivitystä ei tarvittu",
+              error: false,
+            });
+          }
+        })
+        .catch((err) => {
+          console.error("Error updating user:", err);
+          return res.status(500).json({
+            user: null,
+            message: "Palvelin virhe käyttäjän päivityksessä",
+            error: true,
+          });
+        });
+    })
+    .catch((err) => {
+      console.error("Error finding user:", err);
+      return res.status(500).json({
+        user: null,
+        message: "Palvelin virhe",
+        error: true,
+      });
+    });
+}
+
+// Palauttaa kirjautuuneen käyttäjän nimen json muodossa
+export function getLoggedInUsername(req, res, next) {
+  res.setHeader("Content-Type", "application/json");
+  res.status(200).json({username:req.username});
+}
+
 // Palauttaa kaikki käyttäjät json muodosssa
 export function getUsers(req, res, next) {
   res.setHeader("Content-Type", "application/json");
@@ -27,7 +106,7 @@ export function getUser(req, res, next) {
   res.setHeader("Content-Type", "application/json");
 
   UserModel.findOne({ username: req.params.username })
-    .select("username bio -_id")
+    .select("username bio -_id password")
     .then((user) => {
       if (user)
         res
@@ -152,7 +231,7 @@ export async function isLoggedIn(req, res, next) {
     }
 
     // Adding user name to the request object
-    req.user = payload.name;
+    req.username = payload.name;
     console.log(payload);
     
     // Checking if user exists
