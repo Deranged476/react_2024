@@ -11,9 +11,8 @@
 /coverage
 
 # production
-/frontend/build
-/backend/build
-/frontend/src/components/UserManagement2.js
+# /frontend/build
+# /backend/build
 
 # misc
 .DS_Store
