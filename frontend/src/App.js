@@ -41,7 +41,6 @@ function App() {
                         <div>
                             <h2>Tervetuloa käyttäjien hallintajärjestelmään</h2>
                             <p>Ole hyvä ja navigoi käyttämällä yllä olevaa valikkoa.</p>
-                            <p>tämä on testi</p>
                         </div>
                     } />
                     <Route path="/rekisterointi" element={<Register />} />
