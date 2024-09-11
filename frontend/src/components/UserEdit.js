@@ -20,7 +20,7 @@ const EditUser = () => {
     }, []);
     const fetchUserData = async () => {
         try {
-            const response = await axios.get('https://' + window.location.hostname + '/api/users/current', {
+            const response = await axios.get('https://' + window.location.hostname + '/api/users/:username', {
             //const response = await axios.get('https://' + window.location.hostname + ':5000/api/users/current', {
                 withCredentials: true
             });
