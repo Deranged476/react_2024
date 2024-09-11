@@ -29,7 +29,6 @@ function Login() {
             setError(' Lisää salasana')
         } else {
         axios({url:"https://" + window.location.hostname + "/api/users/login",method:"post",data:querystring.stringify(credentials),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
-        //axios({url:"https://" + window.location.hostname + ":5000/api/users/login",method:"post",data:querystring.stringify(credentials),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
     .then((response) => {
         console.log(response.data);
         console.log(response.status);

@@ -26,7 +26,6 @@ function Register() {
             setError(' lisää salasana')
         } else {
         axios({url:"https://" + window.location.hostname + "/api/users/",method:"post",data:querystring.stringify(user),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
-        //axios({url:"https://" + window.location.hostname + ":5000/api/users/",method:"post",data:querystring.stringify(user),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
     .then((response) => {
         console.log(response.data);
         console.log(response.status);

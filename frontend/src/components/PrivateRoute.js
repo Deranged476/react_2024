@@ -15,9 +15,7 @@ const PrivateRoute = ({ children }) => {
             try {
                 // Tehdään http pyyntö, joka palauttaa boolean arvon autentikoitumisen onnistumisesta
                 let response = await axios({url:"https://" + window.location.hostname + "/api/users/isLoggedIn",method:"post",headers:{"Authorization":token,"Content-Type": "application/x-www-form-urlencoded"}});
-                //let response = await axios({url:"https://" + window.location.hostname + ":5000/api/users/isLoggedIn",method:"post",headers:{"Authorization":token,"Content-Type": "application/x-www-form-urlencoded"}});
-                
-                // Suoritetaan parametrin funktio 
+            // Suoritetaan parametrin funktio 
                 handleResult(response.data.success); 
             } catch(err) {
                 // Tulostetaan virhe konsoliin
