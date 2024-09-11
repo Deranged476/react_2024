@@ -20,10 +20,18 @@ const EditUser = () => {
     }, []);
     const fetchUserData = async () => {
         try {
-            const response = await axios.get('https://' + window.location.hostname + '/api/users/:username', {
-            //const response = await axios.get('https://' + window.location.hostname + ':5000/api/users/current', {
-                withCredentials: true
+            // Oletetaan, että token on saatavilla tästä muuttujasta
+            const token = 'token1'; // Korvaa tämä oikealla tokenilla
+    
+            const response = await axios.get('https://' + window.location.hostname + '/api/users/current', {   
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,  // Authorization otsikko lisätty
+                    withCredentials: true
+                }
             });
+    
+            // Asetetaan käyttäjätiedot
             setUserData({ username: response.data.user.username, bio: response.data.user.bio });
         } catch (error) {
             console.error('Error käyttäjän tietojen haussa:', error);
@@ -115,9 +123,9 @@ const EditUser = () => {
     return (
         <div>
             <h2>Muokkaa profiilia</h2>
-            {userData.username && <h3>{userData.username}</h3>}
             {error && <p className='errormessage'>{error}</p>}
             {success && <p className='successmessage'>{success}</p>}
+            {userData.username && <h3>{userData.username}</h3>}
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Vanha salasana:</label>
