@@ -24,13 +24,11 @@ function UserManagement() {
     }, []);
 
     const handleChange = (e) => {
-
         setNewUser({
             ...newUser,
             [e.target.name]: e.target.value
         });
     };
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -137,7 +135,6 @@ function UserManagement() {
         </ul>
     </div>
     );
-
 }
 
 export default UserManagement;

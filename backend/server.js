@@ -1,6 +1,9 @@
 // Tässä tiedostossa määritetetään express ja sen polut
 import mongoose from "mongoose";
 import express from "express";
+// Jos et käytä tätä proxy palvelimena niin ota https ja fs käyttöön
+//import https from "https";
+//import fs from "fs";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -41,6 +44,14 @@ app.use(express.static(path.join(__dirname, "../frontend/build")));
 app.get('*', (req,res) =>{
   res.sendFile(path.join(__dirname+'/../frontend/build/index.html'));
 });
+
+// Jos et käytä tätä proxy palvelimena niin alla olevat koodit käyttöön
+//const options = {
+//  key: fs.readFileSync(path.join(__dirname,"node-selfsigned.key")),
+//  cert: fs.readFileSync(path.join(__dirname,"node-selfsigned.crt"))
+//};
+
+//const server = https.createServer(options,app);
 
 /*app.listen(port, () => {
   console.log(`user-management-app listening on port ${port}/api/users/`);
