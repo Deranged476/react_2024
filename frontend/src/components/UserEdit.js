@@ -20,18 +20,14 @@ const EditUser = () => {
     }, []);
     const fetchUserData = async () => {
         try {
-            // Oletetaan, että token on saatavilla tästä muuttujasta
-            const token = 'token1'; // Korvaa tämä oikealla tokenilla
-    
+            const token = 'token1'; 
             const response = await axios.get('https://' + window.location.hostname + '/api/users/current', {   
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`,  // Authorization otsikko lisätty
+                    'Authorization': `Bearer ${token}`,  
                     withCredentials: true
                 }
             });
-    
-            // Asetetaan käyttäjätiedot
             setUserData({ username: response.data.user.username, bio: response.data.user.bio });
         } catch (error) {
             console.error('Error käyttäjän tietojen haussa:', error);
