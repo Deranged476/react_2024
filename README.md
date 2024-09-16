@@ -173,6 +173,7 @@ Tietokanta on mongodb. Alla tietokannan kaavio:
         node_modules/               // Noden moduulit ovat tässä kansiossa
             ...
         public/                     // Julkiset tiedostot
+            favicon.ico             //
             index.html              // Perus HTML-tiedosto
             mainifest.json          // Web-sovelluksen manifest-tiedosto
         src/                        // Kaikki React lähdekoodi
@@ -181,6 +182,7 @@ Tietokanta on mongodb. Alla tietokannan kaavio:
                 Palvelut.js         // Palvelut komponentti
                 PrivateRoute.js     // PrivateRoute komponentti
                 Register.js         // Register komponentti
+                UserEdit.js         // UserEdit komponentti
                 UserManagement.js   // Käyttäjänhallinta komponentti
             App.js                  // Sovelluksen pääkomponentti
             App.css                 // Päätyylitiedosto
