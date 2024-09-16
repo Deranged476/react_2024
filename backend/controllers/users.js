@@ -231,7 +231,7 @@ export async function isLoggedIn(req, res, next) {
     }
 
     // Adding user name to the request object
-    req.username = payload.name;
+    req.user = payload.name;
     console.log(payload);
     
     // Checking if user exists
