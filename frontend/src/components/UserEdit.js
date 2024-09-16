@@ -20,7 +20,7 @@ const EditUser = () => {
     }, []);
     const fetchUserData = async () => {
         try {
-            const token = 'token1'; 
+            const token = localStorage.getItem('auth1'); 
             const response = await axios({url:"https://" + window.location.hostname + "/api/users/current", method:"get", headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': `Bearer ${token}`}})

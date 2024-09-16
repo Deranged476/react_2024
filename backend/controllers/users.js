@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 // Palauttaa ja päivittää nykyisen käyttäjän tiedot json muodossa
 export function getCurrentUser(req, res, next) {
   res.setHeader("Content-Type", "application/json");
-
+  console.log(req.user)
   UserModel.findOne({ username: req.user })
     .select("username bio") 
     .then((user) => {
