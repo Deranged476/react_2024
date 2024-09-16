@@ -18,6 +18,7 @@ const EditUser = () => {
     useEffect(() => {
       fetchUserData();
     }, []);
+
     const fetchUserData = async () => {
         try {
             const token = localStorage.getItem('auth1'); 
@@ -46,6 +47,9 @@ const EditUser = () => {
             );
             setSuccess('Password updated successfully');
             setError('');
+            setOldPassword('');
+            setNewPassword('');
+            setConfirmPassword('');
         } catch (error) {
             setError('Password update failed');
             setSuccess('Password update success');
