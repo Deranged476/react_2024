@@ -23,7 +23,7 @@ const EditUser = () => {
             const token = localStorage.getItem('auth1'); 
             const response = await axios({url:"https://" + window.location.hostname + "/api/users/current", method:"get", headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': `Bearer ${token}`}})
+                'Authorization': token}})
             /*const response = await axios.get('https://' + window.location.hostname + '/api/users/current', {  
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded',
