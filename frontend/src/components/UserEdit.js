@@ -48,7 +48,7 @@ const EditUser = () => {
             setError('');
         } catch (error) {
             setError('Password update failed');
-            setSuccess('');
+            setSuccess('Password update success');
             console.error('Error updating password:', error);
         }
     };
@@ -56,7 +56,7 @@ const EditUser = () => {
     const handleBioChange = async () => {
         try {
             const token = localStorage.getItem('auth1');
-            axios({url:"https://" + window.location.hostname + "/api/users/current", method:"put", data:{"bio":bio}, 
+            await axios({url:"https://" + window.location.hostname + "/api/users/current", method:"put", data:{"bio":bio}, 
                 headers: { 'Content-Type': 'application/json', 'Authorization': token  }})
             setSuccess('Bio updated successfully');
             setError('');
