@@ -45,9 +45,14 @@ const EditUser = () => {
         }
 
         try {
-            await axios.put('https://' + window.location.hostname + ':5000/api/users/current', 
+            /*await axios({url:'https://' + window.location.hostname + '/api/users/current', method:"put", 
                 { oldPassword, newPassword },
-                { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }}
+                );*/
+
+            await axios({url:"https://" + window.location.hostname + "/api/users/current", method:"put",
+                data:{ oldPassword, newPassword },
+                 headers: { 'Content-Type': 'application/json' }}
             );
             setSuccess('Password updated successfully');
             setError('');
@@ -60,10 +65,14 @@ const EditUser = () => {
 
     const handleBioChange = async () => {
         try {
-            await axios.put('https://' + window.location.hostname + ':5000/api/users/current', 
+            axios({url:"https://" + window.location.hostname + "/api/users/current", method:"put", data:{"bio":bio}, 
+                headers: { 'Content-Type': 'application/json' }})
+
+            /*await axios.put('https://' + window.location.hostname + '/api/users/current', 
                 { bio },
                 { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
-            );
+            );*/
+
             setSuccess('Bio updated successfully');
             setError('');
         } catch (error) {
@@ -75,9 +84,10 @@ const EditUser = () => {
 
     const updateUser = async (updates) => {
         try {
-            await axios.put('https://' + window.location.hostname + ':5000/api/users/current', 
-                updates,
-                { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+
+            await axios({url:'https://' + window.location.hostname + '/api/users/current', method:"put",
+                data:updates,
+                 headers: { 'Content-Type': 'application/json' }, withCredentials: true }
             );
             setSuccess('Update successful');
             setError('');
