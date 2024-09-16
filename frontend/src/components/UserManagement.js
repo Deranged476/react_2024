@@ -34,7 +34,7 @@ function UserManagement() {
         e.preventDefault();
         if (editingUser) {
             // Jos ollaan muokkaustilassa, päivitetään olemassa oleva käyttäjä 
-            axios({url:"https://" + window.location.hostname + "/api/users/"+editingUser.username,method:"put",data:querystring.stringify(newUser),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
+            axios({url:"https://" + window.location.hostname + "/api/users/"+ editingUser.username,method:"put",data:querystring.stringify(newUser),headers:{"Content-Type": "application/x-www-form-urlencoded"}})
         .then((response) => {
         console.log(response.data.message);
         setUsers(users.map(user => (user.username === editingUser.username ? newUser : user)));

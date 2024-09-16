@@ -21,7 +21,8 @@ function Palvelut() {
 
     const performAction = () => {
         // Lisätään haluttu toiminnallisuus toiminnon suorittamiseen
-        console.log('Toiminto suoritettu');
+        console.log('Käyttäjien hallinta avattu');
+        navigate('/kayttajat')
     };
 
     return (
@@ -32,15 +33,12 @@ function Palvelut() {
             <div className="user-info">
                 <h2>Käyttäjän tiedot</h2>
                 <p>Täällä voit tarkastella ja hallita tietojasi.</p>
+                
+                <p>Oman profiilin muokkaus</p>
                 <button onClick={manageProfile}>Hallitse profiilia</button>
-            </div>
 
-            <div className="actions">
-                <h2>Toiminnot</h2>
-                <h3>Tarjoamme erilaisia toimintoja kirjautuneille käyttäjille.</h3>
-
-                <p>Joku toiminto</p>
-                <button onClick={performAction}>Suorita toiminto</button>
+                <p>Käyttäjienhallinta</p>
+                <button onClick={performAction}>Hallinta sivulle</button>
             </div>
 
             <div className="logout">

@@ -45,11 +45,13 @@ function App() {
                     } />
                     <Route path="/rekisterointi" element={<Register />} />
                     <Route path="/kirjautuminen" element={<Login />} />
-                    <Route path="/kayttajat" element={<UserManagement />} />
+                    {/*<Route path="/kayttajat" element={<UserManagement />} />*/}
                     {/*<Route path='/palvelut' element={<Palvelut/>} />*/}
                     {/*<Route path='/muokkaus' element={<EditUser/>} />*/}
                     <Route path="/palvelut" element={<PrivateRoute><Palvelut /></PrivateRoute>} />
                     <Route path="/muokkaus" element={<PrivateRoute><EditUser /></PrivateRoute>} />
+                    <Route path="/kayttajat" element={<PrivateRoute><UserManagement /></PrivateRoute>} />
+
                 </Routes>
             </div>
         </Router>
