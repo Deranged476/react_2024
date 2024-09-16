@@ -24,13 +24,6 @@ const EditUser = () => {
             const response = await axios({url:"https://" + window.location.hostname + "/api/users/current", method:"get", headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
                 'Authorization': token}})
-            /*const response = await axios.get('https://' + window.location.hostname + '/api/users/current', {  
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Authorization': `Bearer ${token}`,  
-                    withCredentials: true
-                }
-            });*/
             setUserData({ username: response.data.user.username, bio: response.data.user.bio });
         } catch (error) {
             console.error('Error käyttäjän tietojen haussa:', error);
@@ -45,14 +38,11 @@ const EditUser = () => {
         }
 
         try {
-            /*await axios({url:'https://' + window.location.hostname + '/api/users/current', method:"put", 
-                { oldPassword, newPassword },
-                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' }}
-                );*/
-
+            const token = localStorage.getItem('auth1'); 
             await axios({url:"https://" + window.location.hostname + "/api/users/current", method:"put",
                 data:{ oldPassword, newPassword },
-                 headers: { 'Content-Type': 'application/json' }}
+                 headers: { 'Content-Type': 'application/json' ,'Authorization': token
+                 }}
             );
             setSuccess('Password updated successfully');
             setError('');
@@ -65,14 +55,9 @@ const EditUser = () => {
 
     const handleBioChange = async () => {
         try {
+            const token = localStorage.getItem('auth1');
             axios({url:"https://" + window.location.hostname + "/api/users/current", method:"put", data:{"bio":bio}, 
-                headers: { 'Content-Type': 'application/json' }})
-
-            /*await axios.put('https://' + window.location.hostname + '/api/users/current', 
-                { bio },
-                { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
-            );*/
-
+                headers: { 'Content-Type': 'application/json', 'Authorization': token  }})
             setSuccess('Bio updated successfully');
             setError('');
         } catch (error) {
@@ -84,10 +69,10 @@ const EditUser = () => {
 
     const updateUser = async (updates) => {
         try {
-
+            const token = localStorage.getItem('auth1');
             await axios({url:'https://' + window.location.hostname + '/api/users/current', method:"put",
                 data:updates,
-                 headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+                 headers: { 'Content-Type': 'application/json' }, 'Authorization': token }
             );
             setSuccess('Update successful');
             setError('');
