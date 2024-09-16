@@ -1,8 +1,72 @@
-# Käyttäjäjienhallinta järjestelmä
+## Sovelluksen siirto renderiin (Web Service)
+
+### **1. Luo uusi web service**
+
+Valitaan Public Git Repository nodeprojektin lähdekoodin lähteeksi ja liitetään github repositorio siihen.
+
+<img src="./images/webservice_source.png" alt="koodin_lähde" style="border:5px solid gray">
+
+<a href="https://github.com/Deranged476/react_2024/tree/main">Repositorio</a>
+
+    https://github.com/Deranged476/react_2024.git
+
+Language
+
+    node
+
+Root Directory
+
+    frontend/
+
+Build Command
+
+    npm install --prefix ./../backend/ && npm install && npm run build
+
+Start Command
+
+    node ../backend/server.js
+
+Lisätään ympäristömuuttujat .env tiedostosta
+
+<img src="./images/add_from_env.png" alt="koodin_lähde" style="border:5px solid gray">
+
+.env tiedoston sisältö
+
+    PORT=5000
+    MONGODB_URI=mongodb+srv://<db_username>:<db_password>@cluster0.ff9bnq3.mongodb.net/hallinta?retryWrites=true&w=majority&appName=Cluster0
+    JWT_SECRET_KEY=<secret_key>
+
+## Sovelluksen siirto renderiin (Docker)
+
+### **1. Luo uusi web service**
+
+Valitaan Public Git Repository nodeprojektin lähdekoodin lähteeksi ja liitetään github repositorio siihen.
+
+<img src="./images/webservice_source.png" alt="koodin_lähde" style="border:5px solid gray">
+
+<a href="https://github.com/Deranged476/react_2024/tree/main">Repositorio</a>
+
+    https://github.com/Deranged476/react_2024.git
+
+Language
+
+    docker
+
+Lisätään ympäristömuuttujat .env tiedostosta
+
+<img src="./images/add_from_env.png" alt="koodin_lähde" style="border:5px solid gray">
+
+.env tiedoston sisältö
+
+    PORT=5000
+    MONGODB_URI=mongodb+srv://<db_username>:<db_password>@cluster0.ff9bnq3.mongodb.net/hallinta?retryWrites=true&w=majority&appName=Cluster0
+    JWT_SECRET_KEY=<secret_key>
+
 
 ## Sovelluksen siirto al 2023 instanssille
 
-### **1. Lisää aws:än security group uusi inbound rule, joka sallii portin 5000 tcp-protokollalla** 
+### **1. Lisää aws:än security group uusi inbound rule, joka sallii portin 5000 tcp-protokollalla**
+
 ### **2. Tiedostojen siirto palvelimelle (githubin main-branch)**
 
     /var/www/react_2024
@@ -10,9 +74,11 @@
 ### **3. .env tiedoston luonti backend kansioon**
 
     PORT=5000
+
 &nbsp;
 
     MONGODB_URI=mongodb+srv://<käyttäjä>:<salasana>@cluster0.ff9bnq3.mongodb.net/hallinta?retryWrites=true&w=majority&appName=Cluster0
+
 &nbsp;
 
     JWT_SECRET_KEY=<salainenavain>
@@ -20,19 +86,23 @@
 ### **4. Asenna noden moduulit**
 
     cd /var/www/react_2024/backend
+
 &nbsp;
 
     npm install
+
 &nbsp;
 
     cd ../frontend
+
 &nbsp;
 
-     npm install    
+     npm install
 
 ### **5. Tee react build**
 
     cd /var/www/react_2024/frontend
+
 &nbsp;
 
     npm run build
@@ -51,7 +121,7 @@ Redirect rulen poistaminen:
 
 ### **7. Buildin tekeminen /var/www/html kansioon (jos hauat käyttää sekä apachea, että nodea)**
 
-Muutetaan package json skripteistä build skriptiä. Oletetaan että projekti on sijoitettu /var/www/ -kansioon 
+Muutetaan package json skripteistä build skriptiä. Oletetaan että projekti on sijoitettu /var/www/ -kansioon
 
     "build": "BUILD_PATH='../html/build/' react-scripts build",
 
@@ -68,7 +138,7 @@ Lisätään tiedoston loppuun heti rivin EnableSendfile on jälkeen tekstit:
     <VirtualHost *:80>
         ServerName < palvelimen ip >
         DocumentRoot /var/www/html/build
- 
+
         <Directory "/var/www/html/build">
             AllowOverride All
             Require all granted
@@ -116,6 +186,7 @@ Lopuksi käynnistetään palvelin uudestaan:
 Käynnistys projekti kansiosta
 
     cd /var/www/react_2024/backend
+
 &nbsp;
 
     npm start
@@ -123,6 +194,7 @@ Käynnistys projekti kansiosta
 Käynnistys projekti kansion ulkopuolelta
 
     npm start --prefix /polku/projekti/kansioon/
+
 
 ## Backend
 
@@ -160,10 +232,13 @@ Tietokanta on mongodb. Alla tietokannan kaavio:
 | :-------------------------------------------- | :---------: | :------------------- | :--------------------------------------------------------------------------- |
 | Palauttaa kaikki käyttäjät                    |     GET     | /api/users/          | {users:[{**nimi**,**bio**},{**nimi**,**bio**},...],message:"",error:boolean} |
 | Palauttaa käyttäjän käyttäjänimen perusteella |     GET     | /api/users/:username | {user:{**nimi**,**bio**},message:"",error:boolean}                           |
+| Palauttaa käyttäjän ja päivittää sen tietoja  |     GET     | /api/users/current   | {message:"",success:boolean,username:""}                                     |
 | Rekisteröi uuden käyttäjän                    |    POST     | /api/users/          | {user:{**nimi**,**bio**},message:"",error:boolean}                           |
-| Kirjaa käyttäjän sisään                       |    POST     | /api/users/login     | {message:"",error:boolean,token:""}                                          |
-| Päivittää käyttää käyttäjänimen perusteella   |     PUT     | /api/users/:username | {user:{**nimi**,**bio**},message:"",error:boolean}                           |
-| Poistaa käyttäjän käyttäjänimen perusteella   |   DELETE    | /api/users/:username | {message:"",error:boolean}                                                   |
+| Kirjaa käyttäjän sisään                       |    POST     | /api/users/login     | {message:"",success:boolean,token:""}                                        |
+| Kirjaa käyttäjän sisään                       |    POST     | /api/users/login     | {message:"",success:boolean,username:""}                                     |
+
+| Päivittää käyttää käyttäjänimen perusteella | PUT | /api/users/:username | {user:{**nimi**,**bio**},message:"",error:boolean} |
+| Poistaa käyttäjän käyttäjänimen perusteella | DELETE | /api/users/:username | {message:"",error:boolean} |
 
 ## Frontend
 
@@ -189,34 +264,32 @@ Tietokanta on mongodb. Alla tietokannan kaavio:
         .env                        // Konfigurointi tiedosto
         package-lock.json           // Noden moduulien tiedot
         package.json                // Noden riippuvuus tiedot
-    .gitignore                      // 
+    .gitignore                      //
     package-lock.json               // Noden moduulien tiedot
     package.json                    // Noden riippuvuus tiedot
     README.md                       // Projectin yleinen kuvaus ja ohjeet
 
 ### App
- Sovelluksen pääkomponentti
- 
-### Komponentit
-    
 
-#### Login 
- Kirjautumis komponetti
+Sovelluksen pääkomponentti
+
+### Komponentit
+
+#### Login
+
+Kirjautumis komponetti
 
 #### Register
- Rekisteröinti komponentti
+
+Rekisteröinti komponentti
 
 #### UserManagement
- käyttäjien hallinta
-    
+
+käyttäjien hallinta
+
 #### Palvelut
- Käyttäjä pääsee vain /palvelut sivulle jos on kirjtunut sisään olemassa olevalla tunnuksella.
- /palvelut sivulla sijaitsee käyttäj toiminnot
+
+Käyttäjä pääsee vain /palvelut sivulle jos on kirjtunut sisään olemassa olevalla tunnuksella.
+/palvelut sivulla sijaitsee käyttäj toiminnot
 
 #### PrivateRoute
-    
-
-
-        
-            
-        
