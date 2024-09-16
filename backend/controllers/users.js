@@ -21,61 +21,69 @@ export function getCurrentUser(req, res, next) {
 
       const updateData = {};
       if (req.body.username) updateData.username = req.body.username;
-      if (req.body.password) updateData.password = req.body.password;
-      if (req.body.bio) updateData.bio = req.body.bio;
+      if (req.body.password) { async function hashPass(password, callback) {
+        const salt = await bcrypt.genSalt(10);
+        callback( await bcrypt.hash((req.body.password) ? (req.body.password) : (""), salt));
+      } 
+      hashPass(req.body.password, (hashedPassword) => {
+        updateData.password = hashedPassword
+      })
+      .then(function (){
+        if (req.body.bio) updateData.bio = req.body.bio;
 
-      if (Object.keys(updateData).length === 0) {
-        return res.status(200).json({
-          user: {
-            username: user.username,
-            bio: user.bio,
-          },
-          message: "Käyttäjän tiedot haettiin onnistuneesti, päivitystä ei tarvittu",
-          error: false,
-        });
-      }
-
-      // Päivitä käyttäjän tiedot, jos req.body sisältää päivityksiä
-      UserModel.updateOne({ username: req.user }, updateData)
-        .then((updateResult) => {
-          if (updateResult.nModified > 0) {
-            return res.status(200).json({
-              user: {
-                username: updateData.username || user.username,
-                bio: updateData.bio || user.bio,
-              },
-              message: "Käyttäjän tiedot päivitettiin onnistuneesti",
-              error: false,
-            });
-          } else {
-            return res.status(200).json({
-              user: {
-                username: user.username,
-                bio: user.bio,
-              },
-              message: "Käyttäjän tiedot haettiin onnistuneesti, mutta päivitystä ei tarvittu",
-              error: false,
-            });
-          }
-        })
-        .catch((err) => {
-          console.error("Error updating user:", err);
-          return res.status(500).json({
-            user: null,
-            message: "Palvelin virhe käyttäjän päivityksessä",
-            error: true,
+        if (Object.keys(updateData).length === 0) {
+          return res.status(200).json({
+            user: {
+              username: user.username,
+              bio: user.bio,
+            },
+            message: "Käyttäjän tiedot haettiin onnistuneesti, päivitystä ei tarvittu",
+            error: false,
           });
+        }
+  
+        // Päivitä käyttäjän tiedot, jos req.body sisältää päivityksiä
+        UserModel.updateOne({ username: req.user }, updateData)
+          .then((updateResult) => {
+            if (updateResult.nModified > 0) {
+              return res.status(200).json({
+                user: {
+                  username: updateData.username || user.username,
+                  bio: updateData.bio || user.bio,
+                },
+                message: "Käyttäjän tiedot päivitettiin onnistuneesti",
+                error: false,
+              });
+            } else {
+              return res.status(200).json({
+                user: {
+                  username: user.username,
+                  bio: user.bio,
+                },
+                message: "Käyttäjän tiedot haettiin onnistuneesti, mutta päivitystä ei tarvittu",
+                error: false,
+              });
+            }
+          })
+          .catch((err) => {
+            console.error("Error updating user:", err);
+            return res.status(500).json({
+              user: null,
+              message: "Palvelin virhe käyttäjän päivityksessä",
+              error: true,
+            });
+          });
+      })
+      .catch((err) => {
+        console.error("Error finding user:", err);
+        return res.status(500).json({
+          user: null,
+          message: "Palvelin virhe",
+          error: true,
         });
-    })
-    .catch((err) => {
-      console.error("Error finding user:", err);
-      return res.status(500).json({
-        user: null,
-        message: "Palvelin virhe",
-        error: true,
       });
-    });
-}
+      } 
+})}
 
 // Palauttaa kirjautuuneen käyttäjän nimen json muodossa
 export function getLoggedInUsername(req, res, next) {
