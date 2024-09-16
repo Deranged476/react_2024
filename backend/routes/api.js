@@ -20,6 +20,7 @@ usersRoutes.get("/", getUsers);
 
 // Palauttaa kirjautuneen käyttäjän tiedot
 usersRoutes.get("/current", isLoggedIn, getCurrentUser);
+usersRoutes.put("/current", isLoggedIn, getCurrentUser);
 
 // Palauttaa käyttäjän käyttäjänimen perusteella
 usersRoutes.get("/:username", isLoggedIn, getUser);
