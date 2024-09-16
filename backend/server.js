@@ -2,8 +2,8 @@
 import mongoose from "mongoose";
 import express from "express";
 // Jos et käytä tätä proxy palvelimena niin ota https ja fs käyttöön
-// import https from "https";
-// import fs from "fs";
+import https from "https";
+import fs from "fs";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -46,18 +46,18 @@ app.get('*', (req,res) =>{
 });
 
 // Jos et käytä tätä proxy palvelimena niin alla olevat koodit käyttöön
-//const options = {
-//  key: fs.readFileSync(path.join(__dirname,"apache-selfsigned.key")),
-//   cert: fs.readFileSync(path.join(__dirname,"apache-selfsigned.crt"))
-// };
+const options = {
+ key: fs.readFileSync(path.join(__dirname,"apache-selfsigned.key")),
+  cert: fs.readFileSync(path.join(__dirname,"apache-selfsigned.crt"))
+};
 
-// const server = https.createServer(options,app);
+const server = https.createServer(options,app);
 
-// server.listen(port, () => {
-//   console.log(`user-management-app listening on port ${port}/api/users/`);
-// });
-
-app.listen(port, '0.0.0.0',() => {
+server.listen(port, () => {
   console.log(`user-management-app listening on port ${port}/api/users/`);
 });
+
+// app.listen(port, '0.0.0.0',() => {
+//   console.log(`user-management-app listening on port ${port}/api/users/`);
+// });
 

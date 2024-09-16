@@ -72,7 +72,7 @@ const EditUser = () => {
             const token = localStorage.getItem('auth1');
             await axios({url:'https://' + window.location.hostname + '/api/users/current', method:"put",
                 data:updates,
-                 headers: { 'Content-Type': 'application/json' }, 'Authorization': token }
+                 headers: { 'Content-Type': 'application/json' , 'Authorization': token }}
             );
             setSuccess('Update successful');
             setError('');
