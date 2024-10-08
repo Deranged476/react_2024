@@ -196,6 +196,64 @@ Käynnistys projekti kansion ulkopuolelta
     npm start --prefix /polku/projekti/kansioon/
 
 
+### ** duckdns ja backend scriptien käynnistys palvelimen käynnistyksen yhteydessä**
+
+Jotta sinun ei tarvitse joka kerta palvelimen käynnistyttyä uudelleen käynnistää duckdns ja backend scriptejä me voidaan tehdä palvelut, jotka käynnistävät nämä scriptit meidän puolesta kun ne laitetaan käynnistymään startupin yhteydessä.
+
+Noden käynnistys scriptin luonti:
+
+    sudo nano /usr/sbin/node_daemon.sh
+
+Liitä tiedostoon tekstit:
+
+    #!/bin/bash
+    su - ec2-user -c "nohup npm start --prefix /var/www/react2024/backend/ > /var/www/react2024/backend/node.log &"
+
+Duckds käynnistys scriptin luonti:
+
+    sudo nano /usr/sbin/duck_damon.sh
+
+Liitä tiedostoon tekstit:
+
+    [Unit]
+    Description=systemd service unit file for running duckdns script.
+
+    [Service]
+    ExecStart=/bin/bash /usr/sbin/duck_daemon.sh
+
+    [Install]
+    WantedBy=multi-user.target
+
+Node palvelun luonti:
+
+    sudo nano /etc/systemd/system/appbackend.service
+
+Liitä tiedostoon tekstit:
+
+    [Unit]
+    Description=systemd service unit file for starting user-management-app backend on boot.
+
+    [Service]
+    ExecStart=/bin/bash /usr/sbin/appbackend.sh
+
+    [Install]
+    WantedBy=multi-user.target
+
+Duckdns palvelun luonti:
+
+    sudo nano /usr/sbin/duck_daemon.sh
+
+Liitä tiedostoon tekstit:
+
+    #!/bin/bash
+    su - ec2-user -c "nohup ~/duckdns/duck.sh > ~/duckdns/duck.log 2>&1&"
+
+Lopuksi ladataan palvelut uudestaan:
+
+    sudo systemctl daemon-reload
+
+Nyt seuraavalla kerralla kun palvelin käynnisetetään niin node ja duckdns scriptit ajetaan automaattisesti.
+
 ## Backend
 
 ### Tiedostot
